@@ -9,7 +9,7 @@ router.post("/signup", async (req, res) => {
     const user = await User.findOne({
         email
     })
-    if (user) return res.json({ "message": "User exists" })
+    if (user) return res.status(400).json({ "message": "User exists" })
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt)
     const newUser = await User.create({
@@ -17,7 +17,7 @@ router.post("/signup", async (req, res) => {
     })
     const token = await jwt.sign({ username:newUser.username,userId:newUser._id}, process.env.JWT_SECRET);
     res.cookie('token',token)
-    res.json({
+    res.status(201).json({
         token
     })
 });
@@ -33,14 +33,19 @@ router.post("/signin", async (req, res) => {
            process.env.JWT_SECRET
          );
          res.cookie("token", token);
-         res.json({
+         res.status(201).json({
            token
          });
     } else {
-        res.json({ "message": "Wrong credentials" });
+        res.status(400).json({ "message": "Wrong credentials" });
     }
     
 })
 
+router.get("/", (req, res) => {
+    res.clearCookie("token");
+    res.json("Done")
+    console.log("cookie cleared")
+})
 
 module.exports = router
