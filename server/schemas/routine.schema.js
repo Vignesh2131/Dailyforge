@@ -15,21 +15,19 @@ const habitSchema = new Schema(
   {
     title: { type: String, required: true },
     description: String,
-    createdAt: Date,
+    createdAt: String,
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
-  { timestamps: true }
 );
 
 const journalSchema = new Schema(
   {
     title: { type: String, required: true },
     description: String,
-    createdAt: Date,
+    createdAt: String,
     mood: String,
     user: { type: Schema.Types.ObjectId, ref: "User", required: true },
   },
-  { timestamps: true }
 );
 
 
