@@ -5,11 +5,11 @@ const { Schema } = mongoose;
 const todoSchema = new Schema({
     title: { type: String, required: true },
     description: { type: String },
-    createdAt: Date,
+    createdAt: String,
     deadline: Date,
     priority: String,
     user : {type:Schema.Types.ObjectId,ref:"User",required:true},
-},{timestamps:true})
+})
 
 const habitSchema = new Schema(
   {

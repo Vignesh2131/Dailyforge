@@ -5,7 +5,7 @@ const app = express();
 const cookieParser = require("cookie-parser")
 
 const authRouter = require("./routes/auth.route");
-const userRouter = require("./routes/user.route")
+const userRouter = require("./routes/tasks.route")
 const db = require("./db/db");
 
 db();
