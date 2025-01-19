@@ -3,6 +3,7 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../schemas/user.schema");
 
+
 const signup =  async (req, res) => {
   const { username, password, email } = req.body;
   const user = await User.findOne({
@@ -44,5 +45,8 @@ const signin =  async (req, res) => {
     res.status(400).json({ message: "Wrong credentials" });
   }
 };
+
+
+
 
 module.exports = {signin, signup}
