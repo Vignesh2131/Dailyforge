@@ -22,7 +22,7 @@ const Signin = () => {
     const data = await axios.post("http://localhost:3001/auth/signin", {
       email,
       password,
-    });
+    },{withCredentials:true});
     if (data.status === 201) navigate("/");
     console.log(data);
   };

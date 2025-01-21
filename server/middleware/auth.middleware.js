@@ -7,7 +7,7 @@ const authMiddleware = (req, res, next) => {
             const verify = jwt.verify(token, process.env.JWT_SECRET)
             req.userData = verify;
             res.status(200)
-        next();
+            next();
         } catch (err) {
            return res.status(401).send({
              message: "Unauthorized",
@@ -15,7 +15,7 @@ const authMiddleware = (req, res, next) => {
         }      
     } else {
         return res.status(401).send({
-            message:"Unauthorized"
+            message:"No token set"
         })
     }
    
