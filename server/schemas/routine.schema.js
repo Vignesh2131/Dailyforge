@@ -6,7 +6,7 @@ const todoSchema = new Schema({
     title: { type: String, required: true },
     description: { type: String },
     createdAt: String,
-    deadline: Date,
+    status:Boolean,
     priority: String,
     user : {type:Schema.Types.ObjectId,ref:"User",required:true},
 })

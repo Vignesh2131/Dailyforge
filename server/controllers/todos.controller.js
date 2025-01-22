@@ -13,6 +13,7 @@ const addTodo =  async (req, res) => {
     description: description,
     createdAt: date,
     priority: priority,
+    status:false,
     user: userId,
   });
   const updatedUser = await User.findByIdAndUpdate(
@@ -24,8 +25,6 @@ const addTodo =  async (req, res) => {
   return res
     .status(201)
     .json({
-      task: todos,
-      user: updatedUser,
       message: "Task created successfully",
     });
 };

@@ -2,7 +2,7 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 import Signin from "./pages/auth/Signin";
 import Signup from "./pages/auth/Signup";
 import Home from "./pages/Home";
-import { AuthRoute,ProtectedRoute } from "./protectedRoutes";
+import { AuthRoute, ProtectedRoute } from "./protectedRoutes";
 function App() {
   return (
     <div>

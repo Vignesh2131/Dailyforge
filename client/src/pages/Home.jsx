@@ -2,9 +2,21 @@
 import Navbar from '@/components/utils/Navbar'
 import Sidebar from '@/components/utils/Sidebar';
 import Task from './Task';
-
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { todoState } from "@/atoms/todos";
+import axios from "axios";
 const Home = () => {
-
+const [todos, setTodos] = useRecoilState(todoState);
+useEffect(() => {
+  fetchTodos();
+}, []);
+const fetchTodos = async () => {
+  const res = await axios.get("http://localhost:3001/v1/todos", {
+    withCredentials: true,
+  });
+  setTodos(res.data.todos);
+};
   return (
     <div className=" h-screen">
       <Navbar />
