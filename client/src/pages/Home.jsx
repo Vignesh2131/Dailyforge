@@ -4,6 +4,7 @@ import Sidebar from '@/components/utils/Sidebar';
 import Task from './Task';
 
 const Home = () => {
+
   return (
     <div className=" h-screen">
       <Navbar />

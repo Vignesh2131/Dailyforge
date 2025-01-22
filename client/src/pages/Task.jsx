@@ -7,7 +7,22 @@ import {
 } from "@/components/ui/accordion";
 import TaskCard from "@/components/cards/TaskCard";
 import Modal from "@/components/utils/Modal";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { todoState } from "@/atoms/todos";
+import axios from "axios";
+
 const Task = () => {
+  const [todos, setTodos] = useRecoilState(todoState);
+  useEffect(() => {
+    fetchTodos();
+  }, [])
+  const fetchTodos = async () => {
+    const res = await axios.get("http://localhost:3001/v1/todos", {
+      withCredentials: true,
+    });
+    setTodos(res.data.todos);
+  }
   return (
     <main>
       <div className="flex justify-between items-center mb-6">
@@ -29,24 +44,9 @@ const Task = () => {
               <AccordionTrigger className="text-xl">Today</AccordionTrigger>
               <AccordionContent>
                 <div className="grid grid-cols-3 gap-3">
-                  <TaskCard
-                    title="Task1"
-                    date="04/01/25"
-                    description="Task testing"
-                    priority="high"
-                  />
-                  <TaskCard
-                    title="Task1"
-                    date="04/01/25"
-                    description="Task testing"
-                    priority="high"
-                  />
-                  <TaskCard
-                    title="Task1"
-                    date="04/01/25"
-                    description="Task testing"
-                    priority="high"
-                  />
+                  {todos && todos.map((todo) => {
+                    return <TaskCard key={todo.id} title={todo.title} description={todo.description} priority={todo.priority} date={todo.createdAt}/>
+                  })}
                 </div>
               </AccordionContent>
             </AccordionItem>

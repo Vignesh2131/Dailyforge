@@ -3,10 +3,13 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.jsx'
 import { CookiesProvider } from 'react-cookie'
+import { RecoilRoot } from 'recoil'
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <CookiesProvider>
-      <App />
+      <RecoilRoot>
+        <App />
+      </RecoilRoot>
     </CookiesProvider>
   </StrictMode>
 );

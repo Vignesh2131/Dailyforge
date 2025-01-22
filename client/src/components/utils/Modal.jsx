@@ -10,13 +10,15 @@ import axios from "axios";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {z} from "zod"
+import { z } from "zod"
+import { useNavigate } from "react-router";
 const todoEntry = z.object({
     title: z.string().min(10, { message: "Min 10 Character required" }),
     description: z.string().min(15, { message: "Min 15 characters are required" }).optional(),
     priority:z.string(),  
 })
-const Modal = ({ mainLabel,buttonLabel }) => {
+const Modal = ({ mainLabel, buttonLabel }) => {
+  const navigate = useNavigate();
     const { register, handleSubmit } = useForm({ resolver: zodResolver(todoEntry) })
     const handleForm = async (data) => {
         const { title, description, priority } = data;
@@ -25,7 +27,7 @@ const Modal = ({ mainLabel,buttonLabel }) => {
           { title, description, priority },
           { withCredentials: true }
         );
-        console.log(res);
+        navigate("/")
     }
   return (
     <Dialog>

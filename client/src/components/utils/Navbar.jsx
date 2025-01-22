@@ -1,6 +1,17 @@
-import { Link } from "react-router"
+import { useCookies } from "react-cookie";
 import { Button } from "../ui/button";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 const Navbar = () => {
+  const navigate = useNavigate();
+  const logout = async() => {
+   const res = await axios.delete("http://localhost:3001/v1/logout", {
+     withCredentials: true,
+   });
+    console.log(res);
+    navigate("/signin");
+
+  }
   return (
     <nav className="p-4">
       <div className="flex justify-between items-center">
@@ -10,7 +21,7 @@ const Navbar = () => {
             <p className="bg-slate-300 rounded-md px-2 py-1">Todos</p>
             <p>Journals</p>
           </div>
-          <Button>Log out</Button>
+          <Button onClick={logout}>Log out</Button>
         </div>
       </div>
     </nav>
