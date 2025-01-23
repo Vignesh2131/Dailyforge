@@ -6,7 +6,7 @@ import {
 } from "@/components/ui/accordion";
 import TaskCard from "@/components/cards/TaskCard";
 import Modal from "@/components/utils/Modal";
-import { fetchTodayTodos, fetchPreviousTodos, fetchYesterdayTodos } from "@/atoms/todos";
+import { fetchTodayTodos, fetchPreviousTodos, fetchYesterdayTodos, fetchCompletedTodos,fetchTodosData } from "@/atoms/todos";
 import { useRecoilValue } from "recoil";
 
 
@@ -14,6 +14,15 @@ const Task = () => {
   const todayTodos = useRecoilValue(fetchTodayTodos);
   const yesterdayTodos = useRecoilValue(fetchYesterdayTodos);
   const remainingTodos = useRecoilValue(fetchPreviousTodos);
+  const completedTodos = useRecoilValue(fetchCompletedTodos);
+  const {
+    completedTodosCount,
+    previousCount,
+    yesterdayCount,
+    todaycount,
+  } = useRecoilValue(fetchTodosData);
+
+
   return (
     <main>
       <div className="flex justify-between items-center mb-6">
@@ -32,9 +41,10 @@ const Task = () => {
             className="w-full border-red-300 border-2 rounded-lg px-5"
           >
             <AccordionItem value="item-1">
-              <AccordionTrigger className="text-xl">Today</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Today ({todaycount})</AccordionTrigger>
               <AccordionContent>
                 <div className="grid grid-cols-3 gap-3">
+                  {todayTodos.length == 0 && <p>Yay! You're done today!</p>}
                   {todayTodos &&
                     todayTodos.map((todo) => {
                       return (
@@ -43,6 +53,7 @@ const Task = () => {
                           title={todo.title}
                           description={todo.description}
                           status={todo.status}
+                          id={todo._id}
                         />
                       );
                     })}
@@ -58,9 +69,10 @@ const Task = () => {
             className="w-full border-red-300 border-2 rounded-lg px-5"
           >
             <AccordionItem value="item-1">
-              <AccordionTrigger>Yesterday</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Yesterday ({yesterdayCount})</AccordionTrigger>
               <AccordionContent>
                 <div className="grid grid-cols-3 gap-3">
+                  {yesterdayTodos.length == 0 && <p>Left no crumbs and backlogs.</p>}
                   {yesterdayTodos &&
                     yesterdayTodos.map((todo) => {
                       return (
@@ -68,8 +80,8 @@ const Task = () => {
                           key={todo._id}
                           title={todo.title}
                           description={todo.description}
-                          priority={todo.priority}
-                          date={todo.createdAt}
+                          status={todo.status}
+                          id={todo._id}
                         />
                       );
                     })}
@@ -85,19 +97,19 @@ const Task = () => {
             className="w-full border-red-300 border-2 rounded-lg px-5"
           >
             <AccordionItem value="item-1">
-              <AccordionTrigger>Previous</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Previous ({previousCount})</AccordionTrigger>
               <AccordionContent>
                 <div className="grid grid-cols-3 gap-3">
-                  {remainingTodos.length==0&&<p>No todo's left!</p>}
+                  {remainingTodos.length == 0 && <p>No todo's left!</p>}
                   {remainingTodos &&
-                  remainingTodos.map((todo) => {
+                    remainingTodos.map((todo) => {
                       return (
                         <TaskCard
                           key={todo._id}
                           title={todo.title}
                           description={todo.description}
-                          priority={todo.priority}
-                          date={todo.createdAt}
+                          status={todo.status}
+                          id={todo._id}
                         />
                       );
                     })}
@@ -113,9 +125,27 @@ const Task = () => {
             className="w-full border-red-300 border-2 rounded-lg px-5"
           >
             <AccordionItem value="item-1">
-              <AccordionTrigger>Completed</AccordionTrigger>
+              <AccordionTrigger className="text-xl">Completed ({completedTodosCount})</AccordionTrigger>
               <AccordionContent>
-                Yes. It adheres to the WAI-ARIA design pattern.
+                <div className="grid grid-cols-3 gap-3">
+                  {completedTodos.length == 0 && (
+                    <p>
+                      Looks like there's lot of work left.
+                    </p>
+                  )}
+                  {completedTodos &&
+                    completedTodos.map((todo) => {
+                      return (
+                        <TaskCard
+                          key={todo._id}
+                          title={todo.title}
+                          description={todo.description}
+                          status={todo.status}
+                          id={todo._id}
+                        />
+                      );
+                    })}
+                </div>
               </AccordionContent>
             </AccordionItem>
           </Accordion>

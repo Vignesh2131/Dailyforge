@@ -3,7 +3,7 @@ import { Calendar } from "../ui/calendar";
 import { useRecoilValue } from "recoil";
 import { fetchTodosData } from "@/atoms/todos";
 const Sidebar = () => {
-  const todoCount = useRecoilValue(fetchTodosData);
+  const {allTodosCount,completedTodosCount} = useRecoilValue(fetchTodosData);
   const date= new Date();
   return (
     <aside className="">
@@ -12,8 +12,8 @@ const Sidebar = () => {
           <div>
             <p>Tasks info</p>
             <div>
-              <p>All Tasks - {todoCount}</p>
-              <p>Completed Tasks - 9</p>
+              <p>All Tasks - {allTodosCount}</p>
+              <p>Completed Tasks - {completedTodosCount}</p>
             </div>
           </div>
           <div>

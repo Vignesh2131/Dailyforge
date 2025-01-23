@@ -3,11 +3,14 @@ import Navbar from '@/components/utils/Navbar'
 import Sidebar from '@/components/utils/Sidebar';
 import Task from './Task';
 import { useEffect } from "react";
-import { useRecoilState } from "recoil";
+import { useSetRecoilState,useRecoilValue } from "recoil";;
 import { todoState } from "@/atoms/todos";
+import { homeSwitch } from '@/atoms/homeSwitch';
+import Journals from './Journals';
 import axios from "axios";
 const Home = () => {
-const [todos, setTodos] = useRecoilState(todoState);
+  const setTodos= useSetRecoilState(todoState);
+  const switchBtnState = useRecoilValue(homeSwitch)
 useEffect(() => {
   fetchTodos();
 }, []);
@@ -22,7 +25,7 @@ const fetchTodos = async () => {
       <Navbar />
       <div className="grid grid-cols-12">
         <div className="col-span-10 px-10 py-4">
-         <Task/>
+         {switchBtnState=="todos"?<Task/>:<Journals/>}
         </div>
         <div className="col-span-2">
           <Sidebar />
