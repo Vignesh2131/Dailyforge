@@ -12,7 +12,6 @@ import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod"
-import { useNavigate } from "react-router";
 import { useSetRecoilState } from "recoil";
 import { todoState } from "@/atoms/todos";
 const todoEntry = z.object({
@@ -30,7 +29,7 @@ const Modal = ({ mainLabel, buttonLabel }) => {
           { title, description, priority },
           { withCredentials: true }
       );
-       console.log(res)
+      setTodos((prev)=>[...prev,res.data.todos])
     }
   return (
     <Dialog>

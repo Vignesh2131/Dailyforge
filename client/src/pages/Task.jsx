@@ -5,7 +5,7 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 import TaskCard from "@/components/cards/TaskCard";
-import Modal from "@/components/utils/Modal";
+import Modal from "@/components/utils/TodoModal";
 import { fetchTodayTodos, fetchPreviousTodos, fetchYesterdayTodos, fetchCompletedTodos,fetchTodosData } from "@/atoms/todos";
 import { useRecoilValue } from "recoil";
 

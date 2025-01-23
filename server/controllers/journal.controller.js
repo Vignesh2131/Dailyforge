@@ -30,7 +30,7 @@ const getJournals = async (req, res) => {
   const populateJournals = await User.findById(userId).populate("journals");
   if (populateJournals.journals.length == 0)
     return res.json({ message: "No Journals are added yet" });
-  res.json({ todos: populateJournals.journals });
+  res.json({ journals: populateJournals.journals });
 };
 
 const updateJournal = async (req, res) => {

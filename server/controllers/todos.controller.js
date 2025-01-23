@@ -16,7 +16,7 @@ const addTodo =  async (req, res) => {
     status:false,
     user: userId,
   });
-  const updatedUser = await User.findByIdAndUpdate(
+  await User.findByIdAndUpdate(
     userId,
     { $push: { todos: todos._id } },
     { new: true }
@@ -26,6 +26,7 @@ const addTodo =  async (req, res) => {
     .status(201)
     .json({
       message: "Task created successfully",
+      todos
     });
 };
 
