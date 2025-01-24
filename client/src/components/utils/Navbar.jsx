@@ -28,6 +28,7 @@ const Navbar = () => {
               }`}
               onClick={() => {
                 sethomeSwitch("todos");
+                navigate("/")
               }}
             >
               Todos
@@ -38,6 +39,7 @@ const Navbar = () => {
               }`}
               onClick={() => {
                 sethomeSwitch("journals");
+                navigate("/journals")
               }}
             >
               Journals

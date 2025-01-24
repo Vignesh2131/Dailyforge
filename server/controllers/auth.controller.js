@@ -30,8 +30,9 @@ const signup =  async (req, res) => {
 const signin =  async (req, res) => {
   const { email, password } = req.body;
   const user = await User.findOne({ email });
-  if (!user) return res.json({ message: "User doesn't exist" });
+  if (!user) return res.status(401).json({ message: "User doesn't exist" });
   const verifyPassword = await bcrypt.compare(password, user.password);
+  if(!verifyPassword) return res.status(401).json({message:"Wrong password"})
   if (verifyPassword && user) {
     const token = await jwt.sign(
       { username: user.username, userId: user._id },

@@ -5,7 +5,6 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-  DialogClose
 } from "@/components/ui/dialog";
 import axios from "axios";
 import { Button } from "../ui/button";
@@ -14,13 +13,15 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod"
 import { useSetRecoilState } from "recoil";
 import { todoState } from "@/atoms/todos";
+import { useState } from "react";
 const todoEntry = z.object({
-    title: z.string().min(10, { message: "Min 10 Character required" }),
-    description: z.string().min(15, { message: "Min 15 characters are required" }).optional(),
+    title: z.string().min(8, { message: "Min 8 Characters required" }),
+    description: z.string().optional(),
     priority:z.string(),  
 })
 const Modal = ({ mainLabel, buttonLabel }) => {
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(todoEntry) })
+  const { register, handleSubmit, formState: { errors },reset } = useForm({ resolver: zodResolver(todoEntry) })
+  const [open,setOpen] = useState(false)
   const setTodos = useSetRecoilState(todoState)
     const handleForm = async (data) => {
         const { title, description, priority } = data;
@@ -29,10 +30,15 @@ const Modal = ({ mainLabel, buttonLabel }) => {
           { title, description, priority },
           { withCredentials: true }
       );
-      setTodos((prev)=>[...prev,res.data.todos])
-    }
+      setTodos((prev) => [...prev, res.data.todos])
+      reset();
+      setOpen(false)
+  }
+ 
+  
+
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button>{mainLabel}</Button>
       </DialogTrigger>
@@ -44,7 +50,8 @@ const Modal = ({ mainLabel, buttonLabel }) => {
           Add a task and take charge of your day.
         </DialogDescription>
         <form className="grid gap-4" onSubmit={handleSubmit(handleForm)}>
-          <input className="px-2 py-1" id="name" placeholder="Todo" {...register("title")} />
+          <input className={`px-2 py-1 ${errors.title ? "border-[1px] border-red-500" : ""}`} id="name" placeholder="Todo" {...register("title")} />
+          {errors.title ? <p className="text-sm font-semibold text-red-500">{errors.title.message}</p>:""}
           <textarea className="px-2 py-1" {...register("description")} placeholder="Description" />
           <div>
             <select {...register("priority")} className="px-2 py-2">
@@ -52,9 +59,7 @@ const Modal = ({ mainLabel, buttonLabel }) => {
               <option value="high">High</option>
             </select>
           </div>
-          <DialogClose asChild>
             <Button type="submit">{buttonLabel}</Button>
-          </DialogClose>
         </form>
       </DialogContent>
     </Dialog>

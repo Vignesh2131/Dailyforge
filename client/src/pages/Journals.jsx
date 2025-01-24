@@ -7,7 +7,10 @@ const Journals = () => {
   console.log(journals)
   return (
     <main>
-      <div className="flex justify-between items-center mb-6">
+      <h1 className="text-3xl font-semibold text-cyan-700 flex justify-center items-center">
+        Feature coming soon...
+      </h1>
+      {/* <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-semibold text-cyan-700">
           Your Personal Sanctuary for Thoughts and Growth
         </h1>
@@ -17,7 +20,7 @@ const Journals = () => {
         {journals && journals.map((journal) => {
           return <JournalCard key={journal._id} date={journal.createdAt} title={journal.title} mood={journal.mood}/>
         })}
-      </div>
+      </div> */}
     </main>
   );
 }
