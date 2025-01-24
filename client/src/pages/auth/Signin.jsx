@@ -40,10 +40,10 @@ const Signin = () => {
    
   };
   return (
-    <div className="grid grid-cols-12 min-h-screen w-full font-mono">
-      <div className="col-span-5 items-center gap-y-4">
+    <div className="h-screen w-full font-mono md:grid md:grid-cols-12">
+      <div className="hidden items-center gap-y-4 md:inline md:col-span-5">
         <div className="flex min-h-screen items-center justify-center flex-col">
-          <div className="">
+          <div className="text-center">
             <p>
               Plans are nothing; planning is everything.{" "}
               <span className="font-semibold inline-block">
@@ -54,8 +54,8 @@ const Signin = () => {
           <img src="/src/assets/signin.svg" className="w-2/3" alt="" />
         </div>
       </div>
-      <div className="col-span-7 p-6 bg-slate-600 text-white">
-        <div className="flex justify-between items-center mb-14">
+      <div className="md:col-span-7 p-6 bg-slate-600 text-white h-screen">
+        <div className="flex justify-between items-center mb-10 md:mb-14">
           <h1 className="font-semibold text-xl">DailyForge</h1>
           <Link className="underline" to="/signup">
             Sign up
@@ -63,53 +63,53 @@ const Signin = () => {
         </div>
         <div className="flex flex-col items-center text-center">
           <div className="mb-8">
-            <h1 className="text-3xl font-bold">
+            <h1 className="text-xl font-semibold md:text-3xl md:font-bold">
               Welcome Back, Your Goals Await!
             </h1>
-            <p className="text-lg font-semibold">
+            <p className="md:text-lg font-medium">
               Log in to conquer your tasks and reflect on your progress.
             </p>
           </div>
-          <div className="w-[400px]">
+          <div className="w-[250px] md:w-[400px]">
             <form
-              className="flex flex-col gap-y-4"
+              className="flex flex-col gap-y-3 md:gap-y-4"
               onSubmit={handleSubmit(handleForm)}
             >
               <input
                 {...register("email")}
                 type="email"
                 placeholder="Your email of triumph!"
-                className="p-3 rounded-md outline-none text-black"
+                className="px-1 py-2 text-sm md:p-3 md:text-base rounded-md outline-none text-black"
               />
               <div className="relative">
                 <input
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
                   placeholder="Your secret key to success"
-                  className="p-3 rounded-md outline-none w-[400px] text-black"
+                  className="px-1 py-2 text-sm md:p-3 md:text-base rounded-md outline-none w-[250px] md:w-[400px] text-black"
                 />
                 {showPassword ? (
                   <Eye
                     color="#000000"
-                    className="absolute bottom-3 left-[360px]"
-                    onClick={()=>setShowPassword(false)}
+                    className="absolute bottom-1 left-[220px] md:bottom-3 md:left-[360px]"
+                    onClick={() => setShowPassword(false)}
                   />
                 ) : (
                   <EyeOff
                     color="#000000"
-                      className="absolute bottom-3 left-[360px]"
-                      onClick={()=>setShowPassword(true)}
+                    className="absolute bottom-1 left-[220px] md:bottom-3 md:left-[360px]"
+                    onClick={() => setShowPassword(true)}
                   />
                 )}
               </div>
 
-              <Button type="submit" className="p-3 bg-slate-800">
+              <Button type="submit" className="p-1 text-sm md:p-3 bg-slate-800">
                 Let’s Get Productive!
               </Button>
             </form>
           </div>
         </div>
-        <ToastContainer/>
+        <ToastContainer />
       </div>
     </div>
   );
