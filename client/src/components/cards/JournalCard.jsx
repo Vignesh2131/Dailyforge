@@ -19,13 +19,26 @@ const JournalCard = ({ date, title, mood, description, id }) => {
   return (
     <div className="p-3 border-b flex justify-between items-center">
       <div className="flex gap-x-4 items-center">
-        <Link to={`/journalpage/${id}`}>
-          <p className="text-lg font-semibold">{title}</p>
-        </Link>
-        <p>{date}</p>
+        <div className="flex flex-col md:flex-row">
+          <Link to={`/journalpage/${id}`}>
+            <p className="text-base md:text-lg font-semibold">{title}</p>
+          </Link>
+          <p>{date}</p>
+        </div>
+
         <div className="flex items-center gap-x-4">
-          <JournalModal mainLabel="edit" buttonLabel="Update" title={title} description={description} mood={mood} id={id}/>
-          <Trash onClick={deleteJournal} className="hover:bg-black hover:text-white"  size={18} />
+          <JournalModal
+            mainLabel="edit"
+            buttonLabel="Update"
+            title={title}
+            description={description}
+            mood={mood}
+            id={id}
+          />
+          <Trash
+            onClick={deleteJournal}
+            size={18}
+          />
         </div>
       </div>
       <div>

@@ -1,4 +1,5 @@
-
+import { LogOut } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "../ui/button";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -17,35 +18,43 @@ const Navbar = () => {
     navigate("/signin");
   }
   return (
-    <nav className="p-4">
+    <nav className="p-4 w-full">
       <div className="flex justify-between items-center">
-        <h1 className="text-xl font-semibold">Dailyforge</h1>
-        <div className="flex items-center justify-between gap-x-6">
-          <div className="border-2 px-3 py-1 rounded-md border-black flex items-center justify-between gap-x-2">
-            <p
-              className={`rounded-md px-2 py-1 cursor-pointer ${
-                switchValue == "todos" ? "bg-slate-300 transition ease-out duration-200" : ""
+        <Link to="/">
+          <h1 className="sm:text-lg md:text-xl font-semibold">Dailyforge</h1>
+        </Link>
+        <div className="flex items-center justify-around gap-x-2 md:gap-x-6">
+          <div className="border-[1px] md:border-2 px-2 md:px-3 py-1 rounded-md border-black gap-x-1 flex items-center justify-between mr-2 md:mr-0">
+            <div
+              className={`rounded-sm text-sm px-1 md:text-base md:px-2 md:py-1 cursor-pointer ${
+                switchValue == "todos"
+                  ? "bg-black text-white transition ease-out duration-200"
+                  : ""
               }`}
               onClick={() => {
                 sethomeSwitch("todos");
-                navigate("/")
+                navigate("/");
               }}
             >
               Todos
-            </p>
-            <p
-              className={`rounded-md px-2 py-1 cursor-pointer ${
-                switchValue == "journals" ? "bg-slate-300 transition ease-in duration-200" : ""
+            </div>
+            <div
+              className={`rounded-sm text-sm md:text-base px-1 md:px-2 md:py-1 cursor-pointer ${
+                switchValue == "journals"
+                  ? "bg-black text-white transition ease-out duration-200"
+                  : ""
               }`}
               onClick={() => {
                 sethomeSwitch("journals");
-                navigate("/journals")
+                navigate("/journals");
               }}
             >
               Journals
-            </p>
+            </div>
           </div>
-          <Button onClick={logout}>Log out</Button>
+          <Button className="sm:p-1 md:p-5" onClick={logout}>
+            <LogOut />
+          </Button>
         </div>
       </div>
     </nav>

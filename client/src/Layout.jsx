@@ -3,10 +3,9 @@ import Navbar from './components/utils/Navbar'
 import Sidebar from './components/utils/Sidebar'
 import { useEffect } from "react";
 import { useCallback } from "react";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState} from "recoil";
 import { todoState } from "@/atoms/todos";
 import { allJournals } from "@/atoms/journals";
-import { homeSwitch } from "@/atoms/homeSwitch";
 import axios from "axios";
 const Layout = () => {
     const setTodos = useSetRecoilState(todoState);
@@ -31,11 +30,11 @@ const Layout = () => {
   return (
       <div className='h-screen'>
           <Navbar />
-          <div className='grid grid-cols-12'>
-              <div className='col-span-10 px-8 py-4'>
+          <div className='md:grid md:grid-cols-12'>
+              <div className='md:col-span-10 px-6 md:px-8 py-4'>
                   <Outlet/>
               </div>
-              <div className='col-span-2'>
+              <div className='hidden md:col-span-2 md:inline'>
                   <Sidebar/>
               </div>
           </div>

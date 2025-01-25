@@ -26,14 +26,14 @@ const Task = () => {
   return (
     <main>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-semibold text-cyan-700">
+        <h1 className="text-xl md:text-3xl font-semibold text-cyan-700">
           Let's see what Todo's you've got
         </h1>
         <div>
           <Modal mainLabel="Create Todo" buttonLabel="Add" />
         </div>
       </div>
-      <div className="flex flex-col gap-y-5">
+      <div className="flex flex-col gap-y-2 md:gap-y-5">
         <div>
           <Accordion
             type="single"
@@ -41,9 +41,11 @@ const Task = () => {
             className="w-full border-red-300 border-2 rounded-lg px-5"
           >
             <AccordionItem value="item-1">
-              <AccordionTrigger className="text-xl">Today ({todaycount})</AccordionTrigger>
+              <AccordionTrigger className="text-base md:text-xl">
+                Today ({todaycount})
+              </AccordionTrigger>
               <AccordionContent>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="flex flex-col gap-y-2 md:grid md:grid-cols-3 md:gap-3">
                   {todayTodos.length == 0 && <p>Yay! You're done today!</p>}
                   {todayTodos &&
                     todayTodos.map((todo) => {
@@ -69,10 +71,14 @@ const Task = () => {
             className="w-full border-red-300 border-2 rounded-lg px-5"
           >
             <AccordionItem value="item-1">
-              <AccordionTrigger className="text-xl">Yesterday ({yesterdayCount})</AccordionTrigger>
+              <AccordionTrigger className="text-base md:text-xl">
+                Yesterday ({yesterdayCount})
+              </AccordionTrigger>
               <AccordionContent>
-                <div className="grid grid-cols-3 gap-3">
-                  {yesterdayTodos.length == 0 && <p>Left no crumbs and backlogs.</p>}
+                <div className="flex flex-col gap-y-2 md:grid md:grid-cols-3 md:gap-3">
+                  {yesterdayTodos.length == 0 && (
+                    <p>Left no crumbs and backlogs.</p>
+                  )}
                   {yesterdayTodos &&
                     yesterdayTodos.map((todo) => {
                       return (
@@ -97,9 +103,11 @@ const Task = () => {
             className="w-full border-red-300 border-2 rounded-lg px-5"
           >
             <AccordionItem value="item-1">
-              <AccordionTrigger className="text-xl">Previous ({previousCount})</AccordionTrigger>
+              <AccordionTrigger className="text-base md:text-xl">
+                Previous ({previousCount})
+              </AccordionTrigger>
               <AccordionContent>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="flex flex-col gap-y-2 md:grid md:grid-cols-3 md:gap-3">
                   {remainingTodos.length == 0 && <p>No todo's left!</p>}
                   {remainingTodos &&
                     remainingTodos.map((todo) => {
@@ -125,13 +133,13 @@ const Task = () => {
             className="w-full border-red-300 border-2 rounded-lg px-5"
           >
             <AccordionItem value="item-1">
-              <AccordionTrigger className="text-xl">Completed ({completedTodosCount})</AccordionTrigger>
+              <AccordionTrigger className="text-base md:text-xl">
+                Completed ({completedTodosCount})
+              </AccordionTrigger>
               <AccordionContent>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="flex flex-col gap-y-2 md:grid md:grid-cols-3 md:gap-3">
                   {completedTodos.length == 0 && (
-                    <p>
-                      Looks like there's lot of work left.
-                    </p>
+                    <p>Looks like there's lot of work left.</p>
                   )}
                   {completedTodos &&
                     completedTodos.map((todo) => {

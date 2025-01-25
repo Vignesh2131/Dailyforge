@@ -40,9 +40,9 @@ const Modal = ({ mainLabel, buttonLabel }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>{mainLabel}</Button>
+        <Button className="text-sm md:text-base">{mainLabel}</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="w-[300px] md:w-[500px]">
         <DialogHeader>
           <DialogTitle>Plan It, Do It, Crush It!</DialogTitle>
         </DialogHeader>
@@ -50,11 +50,11 @@ const Modal = ({ mainLabel, buttonLabel }) => {
           Add a task and take charge of your day.
         </DialogDescription>
         <form className="grid gap-4" onSubmit={handleSubmit(handleForm)}>
-          <input className={`px-2 py-1 ${errors.title ? "border-[1px] border-red-500" : ""}`} id="name" placeholder="Todo" {...register("title")} />
+          <input className={`px-2 py-1 text-sm md:text-base border rounded-md ${errors.title ? "border-[1px] border-red-500" : ""}`} id="name" placeholder="Todo" {...register("title")} />
           {errors.title ? <p className="text-sm font-semibold text-red-500">{errors.title.message}</p>:""}
-          <textarea className="px-2 py-1" {...register("description")} placeholder="Description" />
+          <textarea className="px-2 py-1 text-sm md:text-base border rounded-md" {...register("description")} placeholder="Description" />
           <div>
-            <select {...register("priority")} className="px-2 py-2">
+            <select {...register("priority")} className="px-2 py-1 md:py-2 text-sm md:text-base border rounded-md">
               <option value="low">Low</option>
               <option value="high">High</option>
             </select>

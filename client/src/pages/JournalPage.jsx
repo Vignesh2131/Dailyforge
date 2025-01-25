@@ -9,12 +9,12 @@ const JournalPage = () => {
     const filterJournal = journals.filter((journal) => journal._id == id);
     const journal = filterJournal[0];
   return (
-    <article className="flex flex-col gap-y-4">
-      <div className="flex justify-between items-center mb-2 px-4">
+    <article className="flex flex-col gap-y-2 md:gap-y-4">
+      <div className="flex flex-col md:flex-row md:justify-between md:items-center md:mb-2 px-4">
         <p className="text-2xl font-bold">{journal.title}</p>
         <div>
-          <i>{journal.createdAt}</i>
-          <p className="font-semibold">
+          <i className="text-sm md:text-base">{journal.createdAt}</i>
+          <p className="text-sm md:text-base font-semibold">
             Mood : <span className="font-thin">{journal.mood}</span>
           </p>
         </div>

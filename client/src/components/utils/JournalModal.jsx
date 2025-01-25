@@ -55,12 +55,12 @@ const JournalModal = ({ mainLabel, buttonLabel,title,description,mood,id }) => {
       <DialogTrigger asChild>
         <Button>{mainLabel}</Button>
       </DialogTrigger>
-      <DialogContent className="w-[1000px]">
+      <DialogContent className="w-[350px] md:w-[500px] lg:w-[700px]">
         <DialogHeader>
-          <DialogTitle>Plan It, Do It, Crush It!</DialogTitle>
+          <DialogTitle>Add your Journal</DialogTitle>
         </DialogHeader>
-        <DialogDescription>
-          Add a task and take charge of your day.
+        <DialogDescription className="text-center" >
+          Reflect your thoughts buddy.
         </DialogDescription>
         <form className="grid gap-4" onSubmit={handleSubmit(handleForm)}>
           <Controller
@@ -70,10 +70,10 @@ const JournalModal = ({ mainLabel, buttonLabel,title,description,mood,id }) => {
             render={({ field }) => (
               <input
                 value={title}
-                className={`px-2 py-1 ${
+                className={`px-2 py-1 border ${
                   errors.title ? "border-[1px] border-red-500" : ""
                 }`}
-                placeholder="Title for Today"
+                placeholder="Title your moment"
                 onChange={(e) => setValue("journalTitle", e.target.value)}
                 
               />
@@ -83,8 +83,7 @@ const JournalModal = ({ mainLabel, buttonLabel,title,description,mood,id }) => {
             control={control}
             name="description"
                       render={({ field }) => {
-                        return (<TiptapEditor onChange={field.onChange} description={description} />
-                          
+                        return (<TiptapEditor onChange={field.onChange} description={description} />        
                 )
             }}
                   />
@@ -93,7 +92,7 @@ const JournalModal = ({ mainLabel, buttonLabel,title,description,mood,id }) => {
                       name="mood"
                       render={({ field }) => {
                           return (
-                            <select value={mood} onChange={(e)=>setValue("mood",e.target.value)} className="px-2 py-2">
+                            <select value={mood} onChange={(e)=>setValue("mood",e.target.value)} className="px-1 py-1 border rounded-md w-1/2 md:px-2 md:py-2">
                               <option value="happy">Happy</option>
                               <option value="excited">Excited</option>
                               <option value="calm">Calm</option>
