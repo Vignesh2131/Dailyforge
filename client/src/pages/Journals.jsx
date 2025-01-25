@@ -15,7 +15,7 @@ const Journals = () => {
       </div>
       <div>
         {journals && journals.map((journal) => {
-          return <JournalCard key={journal._id} date={journal.createdAt} title={journal.title} mood={journal.mood}/>
+          return <JournalCard key={journal._id} date={journal.createdAt} title={journal.title} mood={journal.mood} id={journal._id}/>
         })}
       </div>
     </main>

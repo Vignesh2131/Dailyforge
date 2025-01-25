@@ -39,6 +39,7 @@ const Navbar = () => {
               }`}
               onClick={() => {
                 sethomeSwitch("journals");
+                navigate("/journals")
               }}
             >
               Journals

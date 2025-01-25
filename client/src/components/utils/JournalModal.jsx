@@ -6,15 +6,14 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { allJournals } from "@/atoms/journals";
 import axios from "axios";
 import { Button } from "../ui/button";
 import { useForm,Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useSetRecoilState } from "recoil";
-import { todoState } from "@/atoms/todos";
 import { useState } from "react";
-import Editor from "./TiptapEditor";
 import TiptapEditor from "./TiptapEditor";
 const journalEntry = z.object({
   journalTitle: z.string().min(8, { message: "Min 8 Characters required" }),
@@ -23,20 +22,25 @@ const journalEntry = z.object({
 });
 const JournalModal = ({ mainLabel, buttonLabel }) => {
   const {
-      register,
       control,
     handleSubmit,
     formState: { errors },
       reset,
       setValue,
-    watch
-  } = useForm({defaultValues:{journals:"",description:"",mood:""},resolver:zodResolver(journalEntry)});
+  } = useForm({ defaultValues: { journalTitle: "", description: "", mood: "" } });
   const [open, setOpen] = useState(false);
-  const setTodos = useSetRecoilState(todoState);
-  const handleForm = (data) => {
-      console.log(data)
-    reset();
-    setOpen(false);
+  const setJournals = useSetRecoilState(allJournals);
+  const handleForm = async(data) => {
+      const { journalTitle, description, mood } = data;
+      const res = await axios.post(
+        "http://localhost:3001/v1/addJournal",
+        { title: journalTitle, description: description, mood: mood },
+        { withCredentials: true }
+      );
+      console.log(res);
+      setJournals((prev)=>[...prev,res.data.journal])
+      reset();
+      setOpen(false);
     };
 
 
@@ -79,17 +83,17 @@ const JournalModal = ({ mainLabel, buttonLabel }) => {
                       name="mood"
                       render={({ field }) => {
                           return (
-                            <select {...field} className="px-2 py-2">
-                              <option value="happy">😄 Happy</option>
-                              <option value="excited">🎉 Excited</option>
-                              <option value="calm">🌿 Calm</option>
-                              <option value="grateful">🙏 Grateful</option>
-                              <option value="inspired">✨ Inspired</option>
-                              <option value="thoughtful">🤔 Thoughtful</option>
-                              <option value="anxious">😟 Anxious</option>
-                              <option value="sad">😢 Sad</option>
-                              <option value="angry">😡 Angry</option>
-                              <option value="motivated">💪 Motivated</option>
+                            <select onChange={(e)=>setValue("mood",e.target.value)} className="px-2 py-2">
+                              <option value="happy">Happy</option>
+                              <option value="excited">Excited</option>
+                              <option value="calm">Calm</option>
+                              <option value="grateful">Grateful</option>
+                              <option value="inspired">Inspired</option>
+                              <option value="thoughtful">Thoughtful</option>
+                              <option value="anxious">Anxious</option>
+                              <option value="sad">Sad</option>
+                              <option value="angry">Angry</option>
+                              <option value="motivated">Motivated</option>
                             </select>
                           );
                       }}
