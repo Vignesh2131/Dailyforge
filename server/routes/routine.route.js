@@ -13,7 +13,7 @@ router.delete("/deleteTodo",deleteTodo)
 router.post("/addJournal",addJournal)
 router.get("/journals",getJournals)
 router.patch("/updateJournal",updateJournal)
-router.delete("/deleteJournal", deleteJournal)
+router.delete("/deleteJournal/", deleteJournal)
 
 router.delete("/logout", logout);
 

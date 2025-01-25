@@ -11,12 +11,24 @@ const Journals = () => {
         <h1 className="text-3xl font-semibold text-cyan-700">
           Your Personal Sanctuary for Thoughts and Growth
         </h1>
-        <JournalModal mainLabel="Add Journal" buttonLabel="Add"/>
+
+        <JournalModal mainLabel="Add Journal" buttonLabel="Add" />
       </div>
+      {journals.length == 0 && <i className="text-center mx-auto">Don't hide emotions. Write them off</i>}
       <div>
-        {journals && journals.map((journal) => {
-          return <JournalCard key={journal._id} date={journal.createdAt} title={journal.title} mood={journal.mood} id={journal._id}/>
-        })}
+        {journals &&
+          journals.map((journal) => {
+            return (
+              <JournalCard
+                key={journal._id}
+                description={journal.description}
+                date={journal.createdAt}
+                title={journal.title}
+                mood={journal.mood}
+                id={journal._id}
+              />
+            );
+          })}
       </div>
     </main>
   );

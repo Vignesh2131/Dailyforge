@@ -12,7 +12,7 @@ import { Button } from "../ui/button";
 import { useForm,Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useSetRecoilState } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
 import { useState } from "react";
 import TiptapEditor from "./TiptapEditor";
 const journalEntry = z.object({
@@ -20,30 +20,36 @@ const journalEntry = z.object({
   description: z.string().min(8,{message:"Too short"}).max(100,{message:"Limit exceded"}),
   mood:z.string()
 });
-const JournalModal = ({ mainLabel, buttonLabel }) => {
+const JournalModal = ({ mainLabel, buttonLabel,title,description,mood,id }) => {
   const {
-      control,
+    control,
     handleSubmit,
     formState: { errors },
       reset,
       setValue,
-  } = useForm({ defaultValues: { journalTitle: "", description: "", mood: "" } });
+  } = useForm({ defaultValues: { journalTitle: "", description: "", mood: "happy" } });
   const [open, setOpen] = useState(false);
   const setJournals = useSetRecoilState(allJournals);
-  const handleForm = async(data) => {
+  const journals = useRecoilValue(allJournals)
+  const addJournal = async(data) => {
       const { journalTitle, description, mood } = data;
       const res = await axios.post(
         "http://localhost:3001/v1/addJournal",
         { title: journalTitle, description: description, mood: mood },
         { withCredentials: true }
       );
-      console.log(res);
-      setJournals((prev)=>[...prev,res.data.journal])
+      setJournals((prev)=>Array.isArray(prev)?[...prev,res.data.journal]:[res.data.journal])
       reset();
       setOpen(false);
     };
 
+  const updateJournal = async (data) => {
+    const res = await axios.patch(`http://localhost:3001/v1/updateJournal?id=${id}`, { ...data }, { withCredentials: true });
+    reset();
+    setOpen(false);
+  }
 
+  const handleForm = mainLabel == "Add Journal" ? addJournal : updateJournal;
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
@@ -60,13 +66,16 @@ const JournalModal = ({ mainLabel, buttonLabel }) => {
           <Controller
             control={control}
             name="journalTitle"
+           
             render={({ field }) => (
               <input
+                value={title}
                 className={`px-2 py-1 ${
                   errors.title ? "border-[1px] border-red-500" : ""
                 }`}
                 placeholder="Title for Today"
                 onChange={(e) => setValue("journalTitle", e.target.value)}
+                
               />
             )}
           />
@@ -74,7 +83,8 @@ const JournalModal = ({ mainLabel, buttonLabel }) => {
             control={control}
             name="description"
                       render={({ field }) => {
-                          return (<TiptapEditor onChange={field.onChange} />
+                        return (<TiptapEditor onChange={field.onChange} description={description} />
+                          
                 )
             }}
                   />
@@ -83,7 +93,7 @@ const JournalModal = ({ mainLabel, buttonLabel }) => {
                       name="mood"
                       render={({ field }) => {
                           return (
-                            <select onChange={(e)=>setValue("mood",e.target.value)} className="px-2 py-2">
+                            <select value={mood} onChange={(e)=>setValue("mood",e.target.value)} className="px-2 py-2">
                               <option value="happy">Happy</option>
                               <option value="excited">Excited</option>
                               <option value="calm">Calm</option>

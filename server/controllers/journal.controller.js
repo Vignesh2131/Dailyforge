@@ -53,7 +53,7 @@ const deleteJournal = async (req, res) => {
     { new: true }
   );
   const deletedJournal = await Journal.findByIdAndDelete(id);
-  res.status(200).json({ updated, deletedJournal });
+  res.status(200).json({ updated, deletedJournal,"message":"Journal Deleted" });
 };
 
 module.exports = { addJournal,getJournals,updateJournal,deleteJournal };
