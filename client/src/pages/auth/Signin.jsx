@@ -32,7 +32,7 @@ const Signin = () => {
          },
          { withCredentials: true }
        );
-       if (data.status === 201) navigate("/todos");
+       if (data.status === 201) navigate("/");
        console.log(data);
     } catch (error) {
       notify(error.response.data.message)
@@ -51,7 +51,6 @@ const Signin = () => {
               </span>
             </p>
           </div>
-          <img src="/src/assets/signin.svg" className="w-2/3" alt="" />
         </div>
       </div>
       <div className="md:col-span-7 p-6 bg-slate-600 text-white h-screen">

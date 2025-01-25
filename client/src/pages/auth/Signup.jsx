@@ -39,7 +39,7 @@ const Signup = () => {
         { username, email, password },
         { withCredentials: true }
       );
-      if (data.status == 201) navigate("/todos");
+      if (data.status == 201) navigate("/");
     } catch (error) {
       notify(error.response.data.message)
     }
@@ -148,7 +148,6 @@ const Signup = () => {
               <span className="font-semibold inline-block">Jim Kwik</span>
             </p>
           </div>
-          <img src="/src/assets/signup.svg" className="w-2/3" alt="" />
         </div>
       </div>
       <ToastContainer />
