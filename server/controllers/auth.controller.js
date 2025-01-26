@@ -25,6 +25,7 @@ const signup =  async (req, res) => {
     httpOnly: true,
     secure: true,
     sameSite: "None",
+    path:"/"
   });
   res.status(201).json({
     token,
@@ -45,7 +46,8 @@ const signin =  async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
       secure: true,
-      sameSite:"None"
+      sameSite: "None",
+      path:"/"
     });
     res.status(201).json({
       token,
