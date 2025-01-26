@@ -12,8 +12,7 @@ const db = require("./db/db");
 db();
 app.use(cookieParser())
 app.use(express.json());
-app.use(cors({ credentials: true, origin: "http://localhost:5173" , httpOnly: true,
-  sameSite: "None", }));
+app.use(cors({ credentials: true, origin: "http://localhost:5173"}));
 
 app.use("/v1",authMiddleware,userRouter)
 app.use("/auth", authRouter);
