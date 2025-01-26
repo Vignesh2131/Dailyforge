@@ -13,7 +13,11 @@ const TaskCard = ({ title, status, description, id }) => {
     updatedTodo(id,check)
   }
   const updatedTodo = async (id,check) => {
-    const res = await axios.patch(`http://localhost:3001/v1/updateTodo?id=${id}`, { "status": check }, { withCredentials: true });
+    const res = await axios.patch(
+      `${import.meta.env.VITE_BACKEND_URL}/v1/updateTodo?id=${id}`,
+      { status: check },
+      { withCredentials: true }
+    );
     const newTodo = res.data;
     const index = todos.findIndex((todo) => todo._id == id);
     const completedTodo = replaceTodo(todos, index, { ...newTodo });

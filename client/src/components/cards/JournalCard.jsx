@@ -9,9 +9,12 @@ const JournalCard = ({ date, title, mood, description, id }) => {
   const navigate = useNavigate();
   const setNewJournals = useSetRecoilState(allJournals)
   const deleteJournal = async () => {
-    const res = await axios.delete(`http://localhost:3001/v1/deleteJournal?id=${id}`, {
-      withCredentials: true,
-    });
+    const res = await axios.delete(
+      `${import.meta.env.VITE_BACKEND_URL}/v1/deleteJournal?id=${id}`,
+      {
+        withCredentials: true,
+      }
+    );
     const updatedJournals = journals.filter((journal) => journal._id != id);
     setNewJournals(updatedJournals);
     navigate("/journals")
