@@ -11,14 +11,14 @@ const Layout = () => {
     const setTodos = useSetRecoilState(todoState);
     const setJournals = useSetRecoilState(allJournals);
     const fetchTodos = useCallback(async () => {
-      const res = await axios.get("http://localhost:3001/v1/todos", {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/v1/todos`, {
         withCredentials: true,
       });
       setTodos(res.data.todos);
     }, [setTodos]);
 
     const fetchJournals = useCallback(async () => {
-      const res = await axios.get("http://localhost:3001/v1/journals", {
+      const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/v1/journals`, {
         withCredentials: true,
       });
       setJournals(res.data.journals);

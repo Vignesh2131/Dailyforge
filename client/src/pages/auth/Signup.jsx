@@ -35,7 +35,7 @@ const Signup = () => {
     if (password !== confirmPassword) throw new Error("Passwords doesn't match")
     try {
       const data = await axios.post(
-        "http://localhost:3001/auth/signup",
+        `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
         { username, email, password },
         { withCredentials: true }
       );

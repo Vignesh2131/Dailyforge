@@ -26,10 +26,10 @@ const Modal = ({ mainLabel, buttonLabel }) => {
     const handleForm = async (data) => {
         const { title, description, priority } = data;
         const res = await axios.post(
-          "http://localhost:3001/v1/addTodo",
+          `${import.meta.env.VITE_BACKEND_URL}/v1/addTodo`,
           { title, description, priority },
           { withCredentials: true }
-      );
+        );
       setTodos((prev) => [...prev, res.data.todos])
       reset();
       setOpen(false)

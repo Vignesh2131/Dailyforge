@@ -21,7 +21,11 @@ const signup =  async (req, res) => {
     { username: newUser.username, userId: newUser._id },
     process.env.JWT_SECRET
   );
-  res.cookie("token", token);
+  res.cookie("token", token, {
+    httpOnly: true,
+    secure: true,
+    sameSite: "None",
+  });
   res.status(201).json({
     token,
   });
@@ -38,8 +42,11 @@ const signin =  async (req, res) => {
       { username: user.username, userId: user._id },
       process.env.JWT_SECRET
     );
-    console.log(token)
-    res.cookie("token", token);
+    res.cookie("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite:"None"
+    });
     res.status(201).json({
       token,
     });

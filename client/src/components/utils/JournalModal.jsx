@@ -34,7 +34,7 @@ const JournalModal = ({ mainLabel, buttonLabel,title,description,mood,id }) => {
   const addJournal = async(data) => {
       const { journalTitle, description, mood } = data;
       const res = await axios.post(
-        "http://localhost:3001/v1/addJournal",
+        `${import.meta.env.VITE_BACKEND_URL}/v1/addJournal`,
         { title: journalTitle, description: description, mood: mood },
         { withCredentials: true }
       );
@@ -44,7 +44,11 @@ const JournalModal = ({ mainLabel, buttonLabel,title,description,mood,id }) => {
     };
 
   const updateJournal = async (data) => {
-    const res = await axios.patch(`http://localhost:3001/v1/updateJournal?id=${id}`, { ...data }, { withCredentials: true });
+    const res = await axios.patch(
+      `${import.meta.env.VITE_BACKEND_URL}/v1/updateJournal?id=${id}`,
+      { ...data },
+      { withCredentials: true }
+    );
     reset();
     setOpen(false);
   }

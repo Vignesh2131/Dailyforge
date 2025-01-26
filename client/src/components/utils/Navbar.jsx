@@ -12,7 +12,7 @@ const Navbar = () => {
   const sethomeSwitch = useSetRecoilState(homeSwitch)
   const switchValue = useRecoilValue(homeSwitch)
   const logout = async() => {
-    await axios.delete("http://localhost:3001/v1/logout", {
+    await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/v1/logout`, {
      withCredentials: true,
    });
     navigate("/signin");
