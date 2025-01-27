@@ -30,7 +30,10 @@ const Signin = () => {
            email,
            password,
          },
-         { withCredentials: true }
+         {
+           withCredentials: true,
+           credentials:"include"
+         }
        );
        if (data.status === 201) navigate("/");
        console.log(data);
