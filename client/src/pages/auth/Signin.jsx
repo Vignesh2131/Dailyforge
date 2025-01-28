@@ -32,7 +32,6 @@ const Signin = () => {
          },
          {
            withCredentials: true,
-           credentials:"include"
          }
        );
        if (data.status === 201) navigate("/");

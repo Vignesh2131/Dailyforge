@@ -37,7 +37,7 @@ const Signup = () => {
       const data = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
         { username, email, password },
-        { withCredentials: true, credentials:"include"}
+        { withCredentials: true}
       );
       if (data.status == 201) navigate("/");
     } catch (error) {
