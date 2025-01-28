@@ -23,7 +23,7 @@ const signup =  async (req, res) => {
   );
   res.cookie("token", token, {
     httpOnly: true,
-    secure: true,
+    secure: false,
     sameSite: "None",
     path:"/"
   });
@@ -45,7 +45,7 @@ const signin =  async (req, res) => {
     );
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      secure: false,
       sameSite: "None",
       path:"/"
     });
