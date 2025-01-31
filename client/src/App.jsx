@@ -14,41 +14,40 @@ function App() {
           <Route
             path="/"
             element={
-              <ProtectedRoute>
+           
                 <Layout/>
-              </ProtectedRoute>
             }
           >
             <Route index element={
-              <ProtectedRoute>
+      
                 <Task/>
-              </ProtectedRoute>
+       
             } />
             <Route path="/journals" element={
-              <ProtectedRoute>
+         
                 <Journals/>
-              </ProtectedRoute>
+     
             } />
             <Route path="/journalpage/:id" element={
-              <ProtectedRoute>
+        
                 <JournalPage/>
-              </ProtectedRoute>
+          
             } />
           </Route>
           <Route
             path="/signup"
             element={
-              <AuthRoute>
+           
                 <Signup />
-              </AuthRoute>
+            
             }
           />
           <Route
             path="/signin"
             element={
-              <AuthRoute>
+          
                 <Signin />
-              </AuthRoute>
+          
             }
           />
         </Routes>
