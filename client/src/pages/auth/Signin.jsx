@@ -35,7 +35,6 @@ const Signin = () => {
          }
        );
        if (data.status === 201) navigate("/");
-       console.log(data);
     } catch (error) {
       notify(error.response.data.message)
     }
