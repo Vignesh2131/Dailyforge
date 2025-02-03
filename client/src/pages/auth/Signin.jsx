@@ -7,6 +7,8 @@ import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
 import { EyeOff,Eye } from "lucide-react";
 import { useState } from "react";
+import { authState } from "@/atoms/authcheck";
+import { useSetRecoilState } from "recoil";
 const userSchema = z.object({
   email: z.string().email({ message: "Invalid Email Address" }),
   password: z.string().min(8, { message: "Must contain atleast 8 characters" }),
@@ -15,6 +17,7 @@ const userSchema = z.object({
 const Signin = () => {
   const navigate = useNavigate();
   const notify = (message) => toast(message);
+   const setAuth = useSetRecoilState(authState)
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -24,7 +27,7 @@ const Signin = () => {
   const handleForm = async (d) => {
     const { email, password } = d;
     try {
-       const data = await axios.post(
+       const res = await axios.post(
          `${import.meta.env.VITE_BACKEND_URL}/auth/signin`,
          {
            email,
@@ -34,7 +37,10 @@ const Signin = () => {
            withCredentials: true,
          }
        );
-       if (data.status === 201) navigate("/");
+      if (res.status === 201) {
+        setAuth(res.data)
+        navigate("/");
+      }
     } catch (error) {
       notify(error.response.data.message)
     }

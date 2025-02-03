@@ -23,10 +23,12 @@ const signup =  async (req, res) => {
   );
   res.cookie("token", token, {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV !== "development",
+    sameSite:"strict",
   });
   res.status(201).json({
-    token,
+    username: newUser.username,
+    userId: newUser._id,
   });
 };
 
@@ -43,17 +45,22 @@ const signin =  async (req, res) => {
     );
     res.cookie("token", token, {
       httpOnly: true,
-      secure: true,
+      secure: process.env.NODE_ENV === "development",
+      sameSite: "strict",
     });
-    res.status(201).json({
-      token,
-    });
+    res.status(201).json({ username: user.username, userId: user._id });
   } else {
     res.status(400).json({ message: "Wrong credentials" });
   }
 };
 
+const checkAuth = (req, res) => {
+  try {
+    res.status(200).json(req.userData);
+  } catch (error) {
+    console.log("Error in checkAuth controller",error)
+  }
+}
 
 
-
-module.exports = {signin, signup}
+module.exports = {signin, signup,checkAuth}

@@ -7,6 +7,8 @@ import { Button } from "@/components/ui/button"
 import { EyeOff, Eye } from "lucide-react";
 import { useState } from "react"
 import axios from "axios"
+import { useSetRecoilState } from "recoil"
+import { authState } from "@/atoms/authcheck"
 
 
 const userSchema = z.object({
@@ -27,6 +29,7 @@ const userSchema = z.object({
 const Signup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const setAuth = useSetRecoilState(authState)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const notify = (message) =>{ toast(message)}
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(userSchema) })
@@ -34,12 +37,15 @@ const Signup = () => {
      const { username, email, password, confirmPassword } = d;
     if (password !== confirmPassword) throw new Error("Passwords doesn't match")
     try {
-      const data = await axios.post(
+      const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
         { username, email, password },
         { withCredentials: true}
       );
-      if (data.status == 201) navigate("/");
+      if (res.status == 201) {
+        setAuth(res.data)
+        navigate("/");
+      }
     } catch (error) {
       notify(error.response.data.message)
     }

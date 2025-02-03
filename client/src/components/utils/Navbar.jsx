@@ -6,15 +6,18 @@ import axios from "axios";
 import { homeSwitch } from "@/atoms/homeSwitch";
 import { useSetRecoilState } from "recoil";
 import { useRecoilValue } from "recoil";
+import { authState } from "@/atoms/authcheck";
 const Navbar = () => {
 
   const navigate = useNavigate();
   const sethomeSwitch = useSetRecoilState(homeSwitch)
+  const setAuth = useSetRecoilState(authState)
   const switchValue = useRecoilValue(homeSwitch)
   const logout = async() => {
     await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/v1/logout`, {
      withCredentials: true,
-   });
+    });
+    setAuth(null)
     navigate("/signin");
   }
   return (

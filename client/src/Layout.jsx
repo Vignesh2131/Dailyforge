@@ -7,9 +7,12 @@ import { useSetRecoilState} from "recoil";
 import { todoState } from "@/atoms/todos";
 import { allJournals } from "@/atoms/journals";
 import axios from "axios";
+
 const Layout = () => {
-    const setTodos = useSetRecoilState(todoState);
-    const setJournals = useSetRecoilState(allJournals);
+      const setTodos = useSetRecoilState(todoState);
+      const setJournals = useSetRecoilState(allJournals);
+ 
+  
     const fetchTodos = useCallback(async () => {
       const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/v1/todos`, {
         withCredentials: true,
@@ -23,9 +26,10 @@ const Layout = () => {
       });
       setJournals(res.data.journals);
     }, [setJournals]);
-    useEffect(() => {
+     useEffect(() => {
       fetchTodos();
       fetchJournals();
+     
     }, [fetchJournals, fetchTodos]);
   return (
       <div className='h-screen'>

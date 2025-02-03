@@ -22,8 +22,8 @@ const Sidebar = () => {
             <p>Journals - {journalCount}</p>
           </div>
         </div>
-        <div>
-          <Calendar className="bg-black-" mode="single" selected={date} />
+        <div className="w-full">
+        
         </div>
       </div>
     </aside>
