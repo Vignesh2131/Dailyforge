@@ -7,6 +7,7 @@ import { homeSwitch } from "@/atoms/homeSwitch";
 import { useSetRecoilState } from "recoil";
 import { useRecoilValue } from "recoil";
 import { authState } from "@/atoms/authcheck";
+
 const Navbar = () => {
 
   const navigate = useNavigate();
@@ -55,9 +56,9 @@ const Navbar = () => {
               Journals
             </div>
           </div>
-          <Button className="sm:p-1 md:p-5" onClick={logout}>
-            <LogOut />
-          </Button>
+          <div className="cursor-pointer" onClick={logout}>
+            <LogOut color="#000000" className="size-4 md:size-6" />
+          </div>
         </div>
       </div>
     </nav>

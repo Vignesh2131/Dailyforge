@@ -1,3 +1,4 @@
+
 import {
   Dialog,
   DialogContent,
@@ -15,8 +16,8 @@ import { useSetRecoilState } from "recoil";
 import { todoState } from "@/atoms/todos";
 import { useState } from "react";
 const todoEntry = z.object({
-    title: z.string().min(8, { message: "Min 8 Characters required" }),
-    description: z.string().optional(),
+    title: z.string().min(6, { message: "Min 8 Characters required" }),
+  description: z.string().optional(),
     priority:z.string(),  
 })
 const Modal = ({ mainLabel, buttonLabel }) => {
@@ -40,7 +41,7 @@ const Modal = ({ mainLabel, buttonLabel }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="text-sm md:text-base">{mainLabel}</Button>
+        <Button className="text-sm px-3 py-2 md:text-base">{mainLabel}</Button>
       </DialogTrigger>
       <DialogContent className="w-[300px] md:w-[500px]">
         <DialogHeader>
@@ -50,16 +51,43 @@ const Modal = ({ mainLabel, buttonLabel }) => {
           Add a task and take charge of your day.
         </DialogDescription>
         <form className="grid gap-4" onSubmit={handleSubmit(handleForm)}>
-          <input className={`px-2 py-1 text-sm md:text-base border rounded-md ${errors.title ? "border-[1px] border-red-500" : ""}`} id="name" placeholder="Todo" {...register("title")} />
-          {errors.title ? <p className="text-sm font-semibold text-red-500">{errors.title.message}</p>:""}
-          <textarea className="px-2 py-1 text-sm md:text-base border rounded-md" {...register("description")} placeholder="Description" />
+          <input
+            className={`px-2 py-1 text-sm md:text-base border rounded-md ${
+              errors.title ? "border-[1px] border-red-500" : ""
+            }`}
+            id="name"
+            placeholder="Todo"
+            {...register("title")}
+          />
+          {errors.title ? (
+            <p className="text-sm font-semibold text-red-500">
+              {errors.title.message}
+            </p>
+          ) : (
+            ""
+          )}
+          <textarea
+            className="px-2 py-1 text-sm md:text-base border rounded-md"
+            {...register("description")}
+            placeholder="Description"
+          />
+          {errors.description ? (
+            <p className="text-sm font-semibold text-red-500">
+              {errors.description.message}
+            </p>
+          ) : (
+            ""
+          )}
           <div>
-            <select {...register("priority")} className="px-2 py-1 md:py-2 text-sm md:text-base border rounded-md">
+            <select
+              {...register("priority")}
+              className="px-2 py-1 md:py-2 text-sm md:text-base border rounded-md"
+            >
               <option value="low">Low</option>
               <option value="high">High</option>
             </select>
           </div>
-            <Button type="submit">{buttonLabel}</Button>
+          <Button type="submit">{buttonLabel}</Button>
         </form>
       </DialogContent>
     </Dialog>

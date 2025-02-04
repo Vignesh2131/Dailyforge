@@ -1,7 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
@@ -9,10 +8,7 @@ import { EyeOff,Eye } from "lucide-react";
 import { useState } from "react";
 import { authState } from "@/atoms/authcheck";
 import { useSetRecoilState } from "recoil";
-const userSchema = z.object({
-  email: z.string().email({ message: "Invalid Email Address" }),
-  password: z.string().min(8, { message: "Must contain atleast 8 characters" }),
-});
+import { signInSchema as userSchema } from "@/lib/schemas";
 
 const Signin = () => {
   const navigate = useNavigate();
@@ -47,7 +43,7 @@ const Signin = () => {
    
   };
   return (
-    <div className="h-screen w-full font-mono md:grid md:grid-cols-12">
+    <div className="h-full w-full md:grid md:grid-cols-12">
       <div className="hidden items-center gap-y-4 md:inline md:col-span-5">
         <div className="flex min-h-screen items-center justify-center flex-col">
           <div className="text-center">
@@ -85,27 +81,41 @@ const Signin = () => {
                 {...register("email")}
                 type="email"
                 placeholder="Your email of triumph!"
-                className="px-1 py-2 text-sm md:p-3 md:text-base rounded-md outline-none text-black"
+                className="p-2 text-xs md:p-3 md:text-base rounded-md outline-none text-black"
               />
+              {errors.email ? (
+                <p className="text-xs md:text-sm font-thin text-red-500">
+                  {errors.email.message}
+                </p>
+              ) : (
+                ""
+              )}
               <div className="relative">
                 <input
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
                   placeholder="Your secret key to success"
-                  className="px-1 py-2 text-sm md:p-3 md:text-base rounded-md outline-none w-[250px] md:w-[400px] text-black"
+                  className="p-2 text-xs md:p-3 md:text-base rounded-md outline-none w-[250px] md:w-[400px] text-black"
                 />
                 {showPassword ? (
                   <Eye
                     color="#000000"
-                    className="absolute bottom-1 left-[220px] md:bottom-3 md:left-[360px]"
+                    className="absolute size-4 md:size-6 inset-2 md:inset-3 bottom-2 left-[220px] md:bottom-3 md:left-[360px]"
                     onClick={() => setShowPassword(false)}
                   />
                 ) : (
                   <EyeOff
                     color="#000000"
-                    className="absolute bottom-1 left-[220px] md:bottom-3 md:left-[360px]"
+                    className="absolute size-4 md:size-6 inset-2 md:inset-3 bottom-2 left-[220px] md:bottom-3 md:left-[360px]"
                     onClick={() => setShowPassword(true)}
                   />
+                )}
+                {errors.password ? (
+                  <p className="text-xs md:text-sm font-thin text-red-500">
+                    {errors.password.message}
+                  </p>
+                ) : (
+                  ""
                 )}
               </div>
 

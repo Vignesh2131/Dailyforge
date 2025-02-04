@@ -2,29 +2,13 @@ import { Link, useNavigate } from "react-router"
 import { ToastContainer,toast } from "react-toastify"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
-import { z } from 'zod'
 import { Button } from "@/components/ui/button"
 import { EyeOff, Eye } from "lucide-react";
 import { useState } from "react"
 import axios from "axios"
 import { useSetRecoilState } from "recoil"
 import { authState } from "@/atoms/authcheck"
-
-
-const userSchema = z.object({
-    username: z
-      .string()
-      .min(6, { message: "Username must contain atleast 6 characters" }),
-    email: z.string().email({ message: "Invalid Email Address" }),
-    password: z
-      .string()
-      .min(8, { message: "Must contain atleast 8 characters" }),
-    confirmPassword: z
-      .string()
-    .min(8, { message: "Must contain atleast 8 characters" }),
-});
-
-
+import { signUpSchema as userSchema } from "@/lib/schemas"
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -35,7 +19,10 @@ const Signup = () => {
   const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(userSchema) })
   const handleForm = async (d) => {
      const { username, email, password, confirmPassword } = d;
-    if (password !== confirmPassword) throw new Error("Passwords doesn't match")
+    if (password !== confirmPassword) {
+      notify("Password doesn't match")
+      return;
+    }
     try {
       const res = await axios.post(
         `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
@@ -54,7 +41,7 @@ const Signup = () => {
 
 
   return (
-    <div className="h-screen md:grid md:grid-cols-12 w-full font-mono">
+    <div className="h-screen md:grid md:grid-cols-12 w-full">
       <div className=" h-screen md:col-span-7 bg-slate-600 text-white p-6">
         <div className="flex justify-between items-center mb-10 md:mb-14">
           <h1 className="font-semibold text-xl">DailyForge</h1>
@@ -80,39 +67,60 @@ const Signup = () => {
                 {...register("username")}
                 type="text"
                 placeholder="Heroic name, please!"
-                className={`px-1 py-2 text-sm md:p-3 md:text-base rounded-md outline-none${
+                className={`p-2 text-xs md:p-3 md:text-base rounded-md outline-none${
                   errors.username && "border-2 border-red-600"
                 }`}
               />
+              {errors.username ? (
+                <p className="text-xs md:text-sm font-thin text-red-500">
+                  {errors.username.message}
+                </p>
+              ) : (
+                ""
+              )}
               <input
                 {...register("email")}
                 type="email"
                 placeholder="Magical email"
-                className={`px-1 py-2 text-sm md:p-3 md:text-base rounded-md outline-none${
+                className={`p-2 text-xs md:p-3 md:text-base rounded-md outline-none${
                   errors.email && "border-2 border-red-600"
                 }`}
               />
+              {errors.email ? (
+                <p className="text-xs md:text-sm font-thin text-red-500">
+                  {errors.email.message}
+                </p>
+              ) : (
+                ""
+              )}
               <div className="relative">
                 <input
                   {...register("password")}
                   type={showPassword ? "text" : "password"}
                   placeholder="Password"
-                  className={`px-1 py-2 text-sm md:p-3 md:text-base rounded-md outline-none w-[250px] md:w-[400px] ${
+                  className={`p-2 text-xs md:p-3 md:text-base rounded-md outline-none w-[250px] md:w-[400px] ${
                     errors.password && "border-2 border-red-600"
                   }`}
                 />
                 {showPassword ? (
                   <Eye
                     color="#000000"
-                    className="absolute bottom-1 left-[220px] md:bottom-3 md:left-[360px]"
+                    className="absolute size-4 md:size-6 inset-2 md:inset-3 bottom-2 left-[220px] md:bottom-3 md:left-[360px]"
                     onClick={() => setShowPassword(false)}
                   />
                 ) : (
                   <EyeOff
                     color="#000000"
-                    className="absolute bottom-1 left-[220px] md:bottom-3 md:left-[360px]"
+                    className="absolute size-4 md:size-6 inset-2 md:inset-3 bottom-2 left-[220px] md:bottom-3 md:left-[360px]"
                     onClick={() => setShowPassword(true)}
                   />
+                )}
+                {errors.password ? (
+                  <p className="text-xs md:text-sm font-thin text-red-500">
+                    {errors.password.message}
+                  </p>
+                ) : (
+                  ""
                 )}
               </div>
               <div className="relative">
@@ -120,22 +128,29 @@ const Signup = () => {
                   {...register("confirmPassword")}
                   type={showConfirmPassword ? "text" : "password"}
                   placeholder="Confirm Password"
-                  className={`px-1 py-2 text-sm md:p-3 md:text-base rounded-md outline-none w-[250px] md:w-[400px] ${
+                  className={`p-2 text-xs md:p-3 md:text-base rounded-md outline-none w-[250px] md:w-[400px] ${
                     errors.confirmPassword && "border-2 border-red-600"
                   }`}
                 />
-                {showConfirmPassword? (
+                {showConfirmPassword ? (
                   <Eye
                     color="#000000"
-                    className="absolute bottom-1 left-[220px] md:bottom-3 md:left-[360px]"
+                    className="absolute size-4 md:size-6 inset-2 md:inset-3 bottom-2 left-[220px] md:bottom-3 md:left-[360px]"
                     onClick={() => setShowConfirmPassword(false)}
                   />
                 ) : (
                   <EyeOff
                     color="#000000"
-                    className="absolute bottom-1 left-[220px] md:bottom-3 md:left-[360px]"
+                    className="absolute size-4 md:size-6 inset-2 md:inset-3 bottom-2 left-[220px] md:bottom-3 md:left-[360px]"
                     onClick={() => setShowConfirmPassword(true)}
                   />
+                )}
+                {errors.confirmPassword ? (
+                  <p className="text-xs md:text-sm font-thin text-red-500">
+                    {errors.confirmPassword.message}
+                  </p>
+                ) : (
+                  ""
                 )}
               </div>
               <Button type="submit" className="p-3 bg-slate-800">

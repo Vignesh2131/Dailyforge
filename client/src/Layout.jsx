@@ -8,10 +8,11 @@ import { todoState } from "@/atoms/todos";
 import { allJournals } from "@/atoms/journals";
 import axios from "axios";
 
+
 const Layout = () => {
       const setTodos = useSetRecoilState(todoState);
-      const setJournals = useSetRecoilState(allJournals);
- 
+  const setJournals = useSetRecoilState(allJournals);
+
   
     const fetchTodos = useCallback(async () => {
       const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/v1/todos`, {
@@ -29,16 +30,15 @@ const Layout = () => {
      useEffect(() => {
       fetchTodos();
       fetchJournals();
-     
     }, [fetchJournals, fetchTodos]);
   return (
       <div className='h-screen'>
           <Navbar />
-          <div className='md:grid md:grid-cols-12'>
-              <div className='md:col-span-10 px-6 md:px-8 py-4'>
+          <div className='lg:grid lg:grid-cols-12'>
+              <div className='lg:col-span-10 px-6 lg:px-8 py-4'>
                   <Outlet/>
               </div>
-              <div className='hidden md:col-span-2 md:inline'>
+              <div className='hidden lg:col-span-2 lg:inline'>
                   <Sidebar/>
               </div>
           </div>

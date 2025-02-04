@@ -1,6 +1,5 @@
-import React from 'react'
 import { Toggle } from '../ui/toggle'
-import { Bold,Strikethrough,Italic,Heading2 } from 'lucide-react'
+import { Bold,Strikethrough,Italic,Minus,Heading2 } from 'lucide-react'
 const Toolbar = ({ editor }) => {
     if(!editor) return null
   return (
@@ -34,6 +33,13 @@ const Toolbar = ({ editor }) => {
         onPressedChange={() => editor.chain().focus().toggleStrike().run()}
       >
         <Strikethrough className="h-4 w-4" />
+      </Toggle>
+      <Toggle
+        size="sm"
+        pressed={editor.isActive("strike")}
+        onPressedChange={() => editor.chain().focus().setHorizontalRule().run()}
+      >
+        <Minus className="h-4 w-4" />
       </Toggle>
     </div>
   );
