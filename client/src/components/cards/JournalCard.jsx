@@ -1,6 +1,6 @@
 import { Trash } from "lucide-react";
 import { Link, useNavigate } from "react-router";
-import axios from "axios";
+import { axiosInstance } from "@/lib/axios";
 import { allJournals } from "@/atoms/journals";
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import JournalModal from "../utils/JournalModal";
@@ -10,11 +10,8 @@ const JournalCard = ({ date, title, mood, description, id }) => {
   const navigate = useNavigate();
   const setNewJournals = useSetRecoilState(allJournals)
   const deleteJournal = async () => {
-    await axios.delete(
-      `${import.meta.env.VITE_BACKEND_URL}/v1/deleteJournal?id=${id}`,
-      {
-        withCredentials: true,
-      }
+    await axiosInstance.delete(
+      `/v1/deleteJournal?id=${id}`
     );
     const updatedJournals = journals.filter((journal) => journal._id != id);
     setNewJournals(updatedJournals);

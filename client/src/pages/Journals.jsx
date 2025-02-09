@@ -7,7 +7,7 @@ const Journals = () => {
   return (
     <main>
       <div className="flex justify-between items-center mb-3 md:mb-6">
-        <h1 className="text-lg  md:text-3xl font-semibold text-cyan-700">
+        <h1 className="text-lg md:text-4xl font-bold text-primary">
           Your Journals at a Glance
         </h1>
         <JournalModal mainLabel="Add Journal" buttonLabel="Add" />

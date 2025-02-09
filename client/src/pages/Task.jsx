@@ -19,7 +19,7 @@ const Task = () => {
   return (
     <main>
       <div className="flex justify-between items-center mb-6">
-        <h1 className="text-lg md:text-3xl font-semibold text-cyan-700">
+        <h1 className="text-lg md:text-4xl font-bold text-primary">
           Your To-Dos, Ready to Go!
         </h1>
         <div>

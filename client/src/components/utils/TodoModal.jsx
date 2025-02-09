@@ -7,7 +7,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import axios from "axios";
 import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,6 +14,7 @@ import { z } from "zod"
 import { useSetRecoilState } from "recoil";
 import { todoState } from "@/atoms/todos";
 import { useState } from "react";
+import { axiosInstance } from "@/lib/axios";
 const todoEntry = z.object({
     title: z.string().min(6, { message: "Min 8 Characters required" }),
   description: z.string().optional(),
@@ -26,10 +26,9 @@ const Modal = ({ mainLabel, buttonLabel }) => {
   const setTodos = useSetRecoilState(todoState)
     const handleForm = async (data) => {
         const { title, description, priority } = data;
-        const res = await axios.post(
-          `${import.meta.env.VITE_BACKEND_URL}/v1/addTodo`,
-          { title, description, priority },
-          { withCredentials: true }
+        const res = await axiosInstance.post(
+          `/v1/addTodo`,
+          { title, description, priority }
         );
       setTodos((prev) => [...prev, res.data.todos])
       reset();
@@ -41,9 +40,9 @@ const Modal = ({ mainLabel, buttonLabel }) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="text-sm px-3 py-2 md:text-base">{mainLabel}</Button>
+        <Button className="text-sm px-3 py-2 md:text-base bg-buttonbg hover:bg-dark">{mainLabel}</Button>
       </DialogTrigger>
-      <DialogContent className="w-[300px] md:w-[500px]">
+      <DialogContent className="w-[300px] md:w-[500px] bg-yellow-100">
         <DialogHeader>
           <DialogTitle>Plan It, Do It, Crush It!</DialogTitle>
         </DialogHeader>
@@ -52,7 +51,7 @@ const Modal = ({ mainLabel, buttonLabel }) => {
         </DialogDescription>
         <form className="grid gap-4" onSubmit={handleSubmit(handleForm)}>
           <input
-            className={`px-2 py-1 text-sm md:text-base border rounded-md ${
+            className={`px-2 py-1 text-sm md:text-base border bg-yellow-50 rounded-md ${
               errors.title ? "border-[1px] border-red-500" : ""
             }`}
             id="name"
@@ -67,7 +66,7 @@ const Modal = ({ mainLabel, buttonLabel }) => {
             ""
           )}
           <textarea
-            className="px-2 py-1 text-sm md:text-base border rounded-md"
+            className="px-2 py-1 text-sm bg-yellow-50 md:text-base border rounded-md"
             {...register("description")}
             placeholder="Description"
           />
@@ -81,13 +80,13 @@ const Modal = ({ mainLabel, buttonLabel }) => {
           <div>
             <select
               {...register("priority")}
-              className="px-2 py-1 md:py-2 text-sm md:text-base border rounded-md"
+              className="px-2 py-1 md:py-2 text-sm md:text-base border bg-yellow-50 rounded-md"
             >
               <option value="low">Low</option>
               <option value="high">High</option>
             </select>
           </div>
-          <Button type="submit">{buttonLabel}</Button>
+          <Button type="submit" className="bg-buttonbg">{buttonLabel}</Button>
         </form>
       </DialogContent>
     </Dialog>

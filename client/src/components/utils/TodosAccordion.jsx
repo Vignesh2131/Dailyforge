@@ -10,7 +10,7 @@ const TodosAccordion = ({ label, description, value, todosCount, todos }) => {
     <Accordion
       type="single"
       collapsible
-      className="w-full border-b border-black rounded-sm px-3 md:px-5"
+      className="border-b"
     >
       <AccordionItem value={value}>
         <AccordionTrigger className="text-base md:text-xl">

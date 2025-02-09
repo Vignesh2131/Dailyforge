@@ -45,7 +45,7 @@ const signin =  async (req, res) => {
     );
     res.cookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "development",
+      secure: process.env.NODE_ENV !== "development",
       sameSite: "strict",
     });
     res.status(201).json({ username: user.username, userId: user._id });

@@ -58,7 +58,7 @@ const deleteTodo = async (req, res) => {
     { new: true }
   );
   const deletedTask = await Todos.findByIdAndDelete(id);
-  res.status(200).json({ updated, deletedTask });
+  res.status(200).json({todo:deletedTask });
 };
 
 module.exports = {addTodo,getTodos,updateTodo,deleteTodo}

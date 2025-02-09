@@ -5,10 +5,10 @@ import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
 import { EyeOff, Eye } from "lucide-react";
 import { useState } from "react"
-import axios from "axios"
 import { useSetRecoilState } from "recoil"
 import { authState } from "@/atoms/authcheck"
 import { signUpSchema as userSchema } from "@/lib/schemas"
+import { axiosInstance } from "@/lib/axios"
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -24,8 +24,8 @@ const Signup = () => {
       return;
     }
     try {
-      const res = await axios.post(
-        `${import.meta.env.VITE_BACKEND_URL}/auth/signup`,
+      const res = await axiosInstance.post(
+        `/auth/signup`,
         { username, email, password },
         { withCredentials: true}
       );
@@ -34,27 +34,27 @@ const Signup = () => {
         navigate("/");
       }
     } catch (error) {
-      notify(error.response.data.message)
+      notify(error.response.data.message);
     }
   }
 
 
 
   return (
-    <div className="h-screen md:grid md:grid-cols-12 w-full">
-      <div className=" h-screen md:col-span-7 bg-slate-600 text-white p-6">
+    <div className="h-full w-full">
+      <div className="p-6 bg-gradient-to-tr from-[#240046] to-[#7B2CBF] text-white h-screen">
         <div className="flex justify-between items-center mb-10 md:mb-14">
-          <h1 className="font-semibold text-xl">DailyForge</h1>
-          <Link className="underline" to="/signin">
+          <h1 className="font-bold text-xl">Dailyforge</h1>
+          <Link className="underline font-semibold" to="/signin">
             Sign in
           </Link>
         </div>
         <div className="flex flex-col items-center text-center">
           <div className="mb-8">
-            <h1 className="text-xl font-semibold md:text-3xl md:font-bold">
+            <h1 className="text-xl text-transparent bg-clip-text bg-gradient-to-l from-white to-[#E0AAFF] font-semibold md:text-3xl md:font-bold drop-shadow-sm">
               Supercharge Your Productivity. Simplify Your Life.
             </h1>
-            <p className="md:text-lg font-medium">
+            <p className="md:text-lg font-light">
               Join to stay on top of tasks while journaling their way to clarity
             </p>
           </div>
@@ -63,36 +63,41 @@ const Signup = () => {
               className="flex flex-col gap-y-3 md:gap-y-4 text-black"
               onSubmit={handleSubmit(handleForm)}
             >
-              <input
-                {...register("username")}
-                type="text"
-                placeholder="Heroic name, please!"
-                className={`p-2 text-xs md:p-3 md:text-base rounded-md outline-none${
-                  errors.username && "border-2 border-red-600"
-                }`}
-              />
-              {errors.username ? (
-                <p className="text-xs md:text-sm font-thin text-red-500">
-                  {errors.username.message}
-                </p>
-              ) : (
-                ""
-              )}
-              <input
-                {...register("email")}
-                type="email"
-                placeholder="Magical email"
-                className={`p-2 text-xs md:p-3 md:text-base rounded-md outline-none${
-                  errors.email && "border-2 border-red-600"
-                }`}
-              />
-              {errors.email ? (
-                <p className="text-xs md:text-sm font-thin text-red-500">
-                  {errors.email.message}
-                </p>
-              ) : (
-                ""
-              )}
+              <div>
+                <input
+                  {...register("username")}
+                  type="text"
+                  placeholder="Heroic name, please!"
+                  className={`p-2 text-xs md:p-3 md:text-base rounded-md outline-none w-[250px] md:w-[400px] ${
+                    errors.username && "border-2 border-red-600"
+                  }`}
+                />
+                {errors.username ? (
+                  <p className="text-xs md:text-sm font-thin text-primary">
+                    {errors.username.message}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
+              <div>
+                {" "}
+                <input
+                  {...register("email")}
+                  type="email"
+                  placeholder="Magical email"
+                  className={`p-2 text-xs md:p-3 md:text-base rounded-md outline-none w-[250px] md:w-[400px] ${
+                    errors.email && "border-2 border-red-600"
+                  }`}
+                />
+                {errors.email ? (
+                  <p className="text-xs md:text-sm font-thin text-primary">
+                    {errors.email.message}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
               <div className="relative">
                 <input
                   {...register("password")}
@@ -116,7 +121,7 @@ const Signup = () => {
                   />
                 )}
                 {errors.password ? (
-                  <p className="text-xs md:text-sm font-thin text-red-500">
+                  <p className="text-xs md:text-sm font-thin text-primary">
                     {errors.password.message}
                   </p>
                 ) : (
@@ -146,28 +151,20 @@ const Signup = () => {
                   />
                 )}
                 {errors.confirmPassword ? (
-                  <p className="text-xs md:text-sm font-thin text-red-500">
+                  <p className="text-xs md:text-sm font-thin text-primary">
                     {errors.confirmPassword.message}
                   </p>
                 ) : (
                   ""
                 )}
               </div>
-              <Button type="submit" className="p-3 bg-slate-800">
+              <Button
+                type="submit"
+                className="p-1 text-sm md:p-3 bg-buttonbg hover:bg-[#7B2CBF]"
+              >
                 Join the Squad
               </Button>
             </form>
-          </div>
-        </div>
-      </div>
-      <div className="hidden md:inline col-span-5 items-center gap-y-4 px-5">
-        <div className="flex min-h-screen items-center justify-center flex-col">
-          <div className="">
-            <p>
-              “Not only should you have a to-do list, but it must become your
-              best friend.”{" "}
-              <span className="font-semibold inline-block">Jim Kwik</span>
-            </p>
           </div>
         </div>
       </div>

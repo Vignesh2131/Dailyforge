@@ -1,7 +1,7 @@
 const express = require("express")
 require('dotenv').config();
 const cors = require('cors')
-
+const path = require('path')
 const app = express();
 const cookieParser = require("cookie-parser")
 const authRouter = require("./routes/auth.route");
@@ -17,6 +17,13 @@ app.use("/v1",authMiddleware,userRouter)
 app.use("/auth", authRouter);
 
 
+if (process.env.NODE_ENV === "production") {
+    app.use(express.static(path.join(__dirname, '../client/dist')));
+
+    app.get("*", (req, res) => {
+        res.sendFile(path.join(__dirname,"../client","dist","index.html"))
+    })
+}
 
 app.listen(process.env.PORT, () => {
     console.log(`Listening at PORT ${process.env.PORT}`)

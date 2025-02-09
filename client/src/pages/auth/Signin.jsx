@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
@@ -7,13 +7,14 @@ import axios from "axios";
 import { EyeOff,Eye } from "lucide-react";
 import { useState } from "react";
 import { authState } from "@/atoms/authcheck";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { signInSchema as userSchema } from "@/lib/schemas";
+import { axiosInstance } from "@/lib/axios";
 
 const Signin = () => {
+  const [auth,setAuth]=useRecoilState(authState)
   const navigate = useNavigate();
   const notify = (message) => toast(message);
-   const setAuth = useSetRecoilState(authState)
   const [showPassword, setShowPassword] = useState(false);
   const {
     register,
@@ -23,16 +24,7 @@ const Signin = () => {
   const handleForm = async (d) => {
     const { email, password } = d;
     try {
-       const res = await axios.post(
-         `${import.meta.env.VITE_BACKEND_URL}/auth/signin`,
-         {
-           email,
-           password,
-         },
-         {
-           withCredentials: true,
-         }
-       );
+      const res = await axiosInstance.post("/auth/signin",{email,password})
       if (res.status === 201) {
         setAuth(res.data)
         navigate("/");
@@ -43,32 +35,20 @@ const Signin = () => {
    
   };
   return (
-    <div className="h-full w-full md:grid md:grid-cols-12">
-      <div className="hidden items-center gap-y-4 md:inline md:col-span-5">
-        <div className="flex min-h-screen items-center justify-center flex-col">
-          <div className="text-center">
-            <p>
-              Plans are nothing; planning is everything.{" "}
-              <span className="font-semibold inline-block">
-                - Dwight D. Eisenhower
-              </span>
-            </p>
-          </div>
-        </div>
-      </div>
-      <div className="md:col-span-7 p-6 bg-slate-600 text-white h-screen">
+    <div className="h-full w-full">
+      <div className="p-6 bg-gradient-to-tr from-[#240046] to-[#7B2CBF] text-white h-screen">
         <div className="flex justify-between items-center mb-10 md:mb-14">
-          <h1 className="font-semibold text-xl">DailyForge</h1>
-          <Link className="underline" to="/signup">
+          <h1 className="font-bold text-xl">Dailyforge</h1>
+          <Link className="underline font-semibold" to="/signup">
             Sign up
           </Link>
         </div>
-        <div className="flex flex-col items-center text-center">
+        <div className="flex flex-col items-center text-center text-[#E0AAFF] ">
           <div className="mb-8">
-            <h1 className="text-xl font-semibold md:text-3xl md:font-bold">
+            <h1 className="text-xl text-transparent bg-clip-text bg-gradient-to-l from-white to-[#E0AAFF] font-semibold md:text-3xl md:font-bold drop-shadow-sm">
               Welcome Back, Your Goals Await!
             </h1>
-            <p className="md:text-lg font-medium">
+            <p className="md:text-lg font-light text-white">
               Log in to conquer your tasks and reflect on your progress.
             </p>
           </div>
@@ -77,19 +57,22 @@ const Signin = () => {
               className="flex flex-col gap-y-3 md:gap-y-4"
               onSubmit={handleSubmit(handleForm)}
             >
-              <input
-                {...register("email")}
-                type="email"
-                placeholder="Your email of triumph!"
-                className="p-2 text-xs md:p-3 md:text-base rounded-md outline-none text-black"
-              />
-              {errors.email ? (
-                <p className="text-xs md:text-sm font-thin text-red-500">
-                  {errors.email.message}
-                </p>
-              ) : (
-                ""
-              )}
+              <div>
+                <input
+                  {...register("email")}
+                  type="email"
+                  placeholder="Your email of triumph!"
+                  className="p-2 text-xs md:p-3 md:text-base rounded-md outline-none w-[250px] md:w-[400px] text-black"
+                />
+                {errors.email ? (
+                  <p className="text-xs md:text-sm font-thin">
+                    {errors.email.message}
+                  </p>
+                ) : (
+                  ""
+                )}
+              </div>
+
               <div className="relative">
                 <input
                   {...register("password")}
@@ -111,7 +94,7 @@ const Signin = () => {
                   />
                 )}
                 {errors.password ? (
-                  <p className="text-xs md:text-sm font-thin text-red-500">
+                  <p className="text-xs md:text-sm font-thin">
                     {errors.password.message}
                   </p>
                 ) : (
@@ -119,7 +102,10 @@ const Signin = () => {
                 )}
               </div>
 
-              <Button type="submit" className="p-1 text-sm md:p-3 bg-slate-800">
+              <Button
+                type="submit"
+                className="p-1 text-sm md:p-3 bg-buttonbg hover:bg-[#7B2CBF]"
+              >
                 Let’s Get Productive!
               </Button>
             </form>
