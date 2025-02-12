@@ -1,4 +1,3 @@
-
 import {
   Dialog,
   DialogContent,
@@ -11,6 +10,7 @@ import { Button } from "../ui/button";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod"
+import { Loader } from "lucide-react";
 import { useSetRecoilState } from "recoil";
 import { todoState } from "@/atoms/todos";
 import { useState } from "react";
@@ -21,18 +21,29 @@ const todoEntry = z.object({
     priority:z.string(),  
 })
 const Modal = ({ mainLabel, buttonLabel }) => {
-  const { register, handleSubmit, formState: { errors },reset } = useForm({ resolver: zodResolver(todoEntry) })
-  const [open,setOpen] = useState(false)
+  const { register, handleSubmit, formState: { errors }, reset } = useForm({ resolver: zodResolver(todoEntry) })
+  const [open, setOpen] = useState(false);
+  const [isAddingTodo, setIsAddingTodo] = useState(false);
   const setTodos = useSetRecoilState(todoState)
-    const handleForm = async (data) => {
-        const { title, description, priority } = data;
-        const res = await axiosInstance.post(
-          `/v1/addTodo`,
-          { title, description, priority }
-        );
-      setTodos((prev) => [...prev, res.data.todos])
+  const handleForm = async (data) => {
+    setIsAddingTodo(true);
+    try {
+      const { title, description, priority } = data;
+      const res = await axiosInstance.post(`/v1/addTodo`, {
+        title,
+        description,
+        priority,
+      });
+      setTodos((prev) => [...(prev||[]), res.data.todos]);
+      setIsAddingTodo(false);
       reset();
-      setOpen(false)
+      setOpen(false);
+    } catch (error) {
+      setIsAddingTodo(false);
+      console.log(error)
+    }
+  
+        
   }
  
   
@@ -86,7 +97,7 @@ const Modal = ({ mainLabel, buttonLabel }) => {
               <option value="high">High</option>
             </select>
           </div>
-          <Button type="submit" className="bg-buttonbg">{buttonLabel}</Button>
+          <Button type="submit" className="bg-shade hover:bg-buttonbg">{isAddingTodo?<Loader className="animate-spin"/>:buttonLabel}</Button>
         </form>
       </DialogContent>
     </Dialog>

@@ -12,8 +12,8 @@ const Journals = () => {
         </h1>
         <JournalModal mainLabel="Add Journal" buttonLabel="Add" />
       </div>
-      {!journals && (
-        <p className="text-center mx-auto">
+      {journals === undefined &&  (
+        <p className="text-center mx-auto mt-10 md:text-xl font-light text-yellow-100">
           Don&apos;t hide emotions. Write them off
         </p>
       )}

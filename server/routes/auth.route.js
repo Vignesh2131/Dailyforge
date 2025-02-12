@@ -6,6 +6,6 @@ const {signin,signup,checkAuth} = require("../controllers/auth.controller")
 
 router.post("/signup",signup);
 router.post("/signin", signin);
-router.get("/checkAuth",checkAuth)
+router.get("/checkAuth",protectRouter,checkAuth)
 
 module.exports = router

@@ -1,18 +1,18 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { Button } from "@/components/ui/button";
 import { ToastContainer, toast } from "react-toastify";
-import axios from "axios";
-import { EyeOff,Eye } from "lucide-react";
+import { EyeOff, Eye } from "lucide-react";
 import { useState } from "react";
 import { authState } from "@/atoms/authcheck";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useSetRecoilState} from "recoil";
 import { signInSchema as userSchema } from "@/lib/schemas";
 import { axiosInstance } from "@/lib/axios";
 
 const Signin = () => {
-  const [auth,setAuth]=useRecoilState(authState)
+  const setAuth = useSetRecoilState(authState)
+  const [isSigningIn, setIsSigningIn] = useState(false);
   const navigate = useNavigate();
   const notify = (message) => toast(message);
   const [showPassword, setShowPassword] = useState(false);
@@ -22,17 +22,20 @@ const Signin = () => {
     formState: { errors },
   } = useForm({ resolver: zodResolver(userSchema) });
   const handleForm = async (d) => {
+    setIsSigningIn(true);
     const { email, password } = d;
     try {
-      const res = await axiosInstance.post("/auth/signin",{email,password})
+      const res = await axiosInstance.post("/auth/signin", { email, password });
       if (res.status === 201) {
-        setAuth(res.data)
+        setAuth(res.data);
+        setIsSigningIn(false);
+        notify("Signed in successfully")
         navigate("/");
       }
     } catch (error) {
-      notify(error.response.data.message)
+      setIsSigningIn(false);
+      notify(error.response.data.message);
     }
-   
   };
   return (
     <div className="h-full w-full">
@@ -106,7 +109,7 @@ const Signin = () => {
                 type="submit"
                 className="p-1 text-sm md:p-3 bg-buttonbg hover:bg-[#7B2CBF]"
               >
-                Let’s Get Productive!
+                {isSigningIn?"Signing in..":"Let’s Get Productive!"}
               </Button>
             </form>
           </div>

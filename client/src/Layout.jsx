@@ -8,6 +8,7 @@ import { todoState } from "@/atoms/todos";
 import { allJournals } from "@/atoms/journals";
 import { axiosInstance } from './lib/axios';
 const Layout = () => {
+
   const setTodos = useSetRecoilState(todoState);
   const setJournals = useSetRecoilState(allJournals);
 

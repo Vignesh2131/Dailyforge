@@ -117,7 +117,9 @@ const JournalModal = ({ mainLabel, buttonLabel,title,description,mood,id }) => {
               );
             }}
           />
-          <Button className="bg-buttonbg " type="submit">{buttonLabel}</Button>
+          <Button className="bg-shade hover:bg-buttonbg" type="submit">
+            {buttonLabel}
+          </Button>
         </form>
       </DialogContent>
     </Dialog>

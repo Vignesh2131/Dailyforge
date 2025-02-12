@@ -8,16 +8,16 @@ import { authState } from "@/atoms/authcheck";
 import { axiosInstance } from "@/lib/axios";
 const Navbar = () => {
   const navigate = useNavigate();
-  const sethomeSwitch = useSetRecoilState(homeSwitch)
-  const setAuth = useSetRecoilState(authState)
-  const switchValue = useRecoilValue(homeSwitch)
-  const logout = async() => {
+  const sethomeSwitch = useSetRecoilState(homeSwitch);
+  const setAuth = useSetRecoilState(authState);
+  const switchValue = useRecoilValue(homeSwitch);
+  const logout = async () => {
     await axiosInstance.delete(`/v1/logout`);
-    setAuth(null)
+    setAuth(null);
     navigate("/signin");
-  }
+  };
   return (
-    <nav className="p-4 w-full">
+    <nav className="px-4 py-3 mb-2 w-full shadow-md shadow-yellow-200">
       <div className="flex justify-between items-center">
         <Link to="/">
           <h1
@@ -63,6 +63,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-}
+};
 
-export default Navbar
+export default Navbar;

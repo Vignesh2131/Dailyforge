@@ -1,44 +1,53 @@
-import { Link, useNavigate } from "react-router"
-import { ToastContainer,toast } from "react-toastify"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useForm } from "react-hook-form"
-import { Button } from "@/components/ui/button"
+import { Link, useNavigate } from "react-router";
+import { ToastContainer, toast } from "react-toastify";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm } from "react-hook-form";
+import { Button } from "@/components/ui/button";
 import { EyeOff, Eye } from "lucide-react";
-import { useState } from "react"
-import { useSetRecoilState } from "recoil"
-import { authState } from "@/atoms/authcheck"
-import { signUpSchema as userSchema } from "@/lib/schemas"
-import { axiosInstance } from "@/lib/axios"
+import { useState } from "react";
+import { useSetRecoilState } from "recoil";
+import { authState } from "@/atoms/authcheck";
+import { signUpSchema as userSchema } from "@/lib/schemas";
+import { axiosInstance } from "@/lib/axios";
 
 const Signup = () => {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
-  const setAuth = useSetRecoilState(authState)
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const setAuth = useSetRecoilState(authState);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const notify = (message) =>{ toast(message)}
-  const { register, handleSubmit, formState: { errors } } = useForm({ resolver: zodResolver(userSchema) })
+  const notify = (message) => {
+    toast(message);
+  };
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({ resolver: zodResolver(userSchema) });
   const handleForm = async (d) => {
-     const { username, email, password, confirmPassword } = d;
+    setIsSigningUp(true);
+    const { username, email, password, confirmPassword } = d;
     if (password !== confirmPassword) {
-      notify("Password doesn't match")
+      notify("Password doesn't match");
       return;
     }
     try {
       const res = await axiosInstance.post(
         `/auth/signup`,
         { username, email, password },
-        { withCredentials: true}
+        { withCredentials: true }
       );
       if (res.status == 201) {
-        setAuth(res.data)
+        setAuth(res.data);
+        setIsSigningUp(false);
+        notify("Signed up successfully")
         navigate("/");
       }
     } catch (error) {
+      setIsSigningUp(false);
       notify(error.response.data.message);
     }
-  }
-
-
+  };
 
   return (
     <div className="h-full w-full">
@@ -162,7 +171,7 @@ const Signup = () => {
                 type="submit"
                 className="p-1 text-sm md:p-3 bg-buttonbg hover:bg-[#7B2CBF]"
               >
-                Join the Squad
+                {isSigningUp?"Signing up...":"Join the Squad"}
               </Button>
             </form>
           </div>
@@ -171,6 +180,6 @@ const Signup = () => {
       <ToastContainer />
     </div>
   );
-}
+};
 
-export default Signup
+export default Signup;
